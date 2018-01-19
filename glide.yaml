@@ -1,0 +1,5 @@
+package: github.com/EugenMayer/opnsense-cli
+import:
+- package: github.com/alecthomas/kingpin
+  version: ~2.2.6
+- package: kontextwork.de/dw_provisioneer/opnsense
