@@ -1,0 +1,14 @@
+hash: 43d1f5529e4a5d12ab9e773b1aa9ffb293796e3fb1b3d0975bcb8b996b4b1021
+updated: 2018-01-19T20:25:24.343825965+01:00
+imports:
+- name: github.com/alecthomas/kingpin
+  version: 947dcec5ba9c011838740e680966fd7087a71d0d
+- name: github.com/alecthomas/template
+  version: a0175ee3bccc567396460bf5acd36800cb10c49c
+  subpackages:
+  - parse
+- name: github.com/alecthomas/units
+  version: 2efee857e7cfd4f3d0138cc3cbb1b4966962b93a
+- name: github.com/joho/godotenv
+  version: a79fa1e548e2c689c241d10173efd51e5d689d5b
+testImports: []

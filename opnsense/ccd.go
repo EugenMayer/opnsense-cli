@@ -7,7 +7,7 @@ import (
 )
 
 
-func (opn *OPNsense) CcdCreate(commonName string, ip net.IP, ip net.IPMask) {
+func (opn *OPNsense) CcdCreate(commonName string, ip net.IP, netmask net.IPMask) {
 
 }
 

@@ -1,16 +1,17 @@
-package opnsense_cli
+package main
 
 import (
 	"github.com/alecthomas/kingpin"
-	"kontextwork.de/dw_provisioneer/opnsense"
 	"os"
 	"log"
 	"fmt"
-	"net"
 	"net/url"
+	"github.com/EugenMayer/opnsense-cli/opnsense"
+	"github.com/joho/godotenv"
 )
 
 var (
+
 	ccdCommand     = kingpin.Command("ccd", "Delete an object.")
 	createCcdCommand = ccdCommand.Command("create", "Create ccd")
 	showCcdCommand = ccdCommand.Command("show", "Show ccd")
@@ -26,6 +27,13 @@ var (
 )
 
 func main() {
+	kingpin.CommandLine.HelpFlag.Short('h')
+	var command = kingpin.Parse()
+
+	if err := godotenv.Load(); err != nil {
+		log.Fatal(fmt.Sprintf("Error with the dotenv environment: %s", err))
+	}
+
 	if _, isset := os.LookupEnv("OPN_URL"); !isset {
 		log.Fatal(fmt.Println("Please set the OPN_URL to your opnsense opnUrl like https://myopnsense:10443"))
 	}
@@ -41,18 +49,18 @@ func main() {
 	var apiKey = os.Getenv("OPN_APIKEY")
 	var apiSecret = os.Getenv("OPN_APISECRET")
 
-	var url, err = url.Parse(opnUrl)
+	var parsedUrl, err = url.Parse(opnUrl)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	var opn = opnsense.OPNsense{
-		BaseUrl: *url,
+		BaseUrl: *parsedUrl,
 		ApiKey: apiKey,
 		ApiSecret: apiSecret,
 	}
 
-	switch kingpin.Parse() {
+	switch command {
 	case "ccd create":
 	case "ccd show":
 		opn.CcdExists(*showCcdCommanName)
