@@ -3,12 +3,29 @@ package opnsense
 import (
 	"fmt"
 	"net/url"
+	"net/http"
+	"crypto/tls"
 )
 
 type OPNsense struct {
 	BaseUrl   url.URL
 	ApiKey    string
 	ApiSecret string
+	NoSslVerify bool
+}
+
+func (opn *OPNsense) send(request *http.Request) (*http.Response, error) {
+	var client = &http.Client{}
+
+	if opn.NoSslVerify {
+		client.Transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
+	}
+
+	request.SetBasicAuth(opn.ApiKey, opn.ApiSecret)
+	request.Header.Set("Content-Type", "application/json")
+	return client.Do(request)
 }
 
 // so basically api/<plugin>

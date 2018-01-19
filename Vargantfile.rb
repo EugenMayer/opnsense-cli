@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
     test.vm.provision "sleep-for-reboot", type: "local_shell", command: "echo 'waiting for the reboot' && sleep 50"
 
     test.vm.provision "shell",
-      inline: "curl -Lo os-openvpn-devel-0.0.3.txz https://github.com/EugenMayer/opnsense-openvpn-plugin/raw/master/dist/os-openvpn-devel-0.0.3.txz && pkg add os-openvpn-devel-0.0.3.txz"
+      inline: "export openvpn_version=0.0.4 && curl -Lo os-openvpn-devel-${openvpn_version}.txz https://github.com/EugenMayer/opnsense-openvpn-plugin/raw/master/dist/os-openvpn-devel-${openvpn_version}.txz && pkg add os-openvpn-devel-${openvpn_version}.txz"
     test.vm.provision "shell",
       inline: "export unbound_version=0.0.1 && curl -Lo os-unbound-devel-${unbound_version}.txz https://github.com/EugenMayer/opnsense-unbound-plugin/raw/master/dist/os-unbound-devel-${unbound_version}.txz && pkg add os-unbound-devel-${unbound_version}.txz"
   end

@@ -9,6 +9,12 @@ Its precompiled and has no dependencies, so just download the binary and you are
     curl -Lo opn https://github.com/EugenMayer/opnsense-cli/raw/master/dist/opn
     chmod +x opn
 
+You need to create a .env for the secrets
+
+    OPN_URL=https://localhost:10443
+    OPN_APIKEY=5GWbPwKfXVLzgJnewKuu1IPw2HS7s510jKHmTM+rLA1y9VfEFE57yj/kJiWbXREB0EgpBK48u4gnyign
+    OPN_APISECRET=EtpPVbiCBdtvG5VDlYJQfLu7Qck2hRffoLi2vb73arn5bKzxEbGdti8+iZetgc9eHABJy6XYG6/UsW/1
+       
 ## Usage
 
     opn --help
