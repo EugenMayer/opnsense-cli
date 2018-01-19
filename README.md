@@ -11,23 +11,23 @@ Its precompiled and has no dependencies, so just download the binary and you are
 
 ## Usage
 
-   opn --help
-   opn ccd create foo "10.10.10.1/24"
+    opn --help
+    opn ccd create foo "10.10.10.1/24"
 
 ## Test instance ?
 
 If you miss yourself a opnsense instance to test agains, why do you just dont start one? :)
 
-   vagrant up
+    vagrant up
 
-You will able to be connect to this using https://localhost:10443 or using the shell `ssh -P 10022 root@localhost`
-User: root / Password: opnsense
+You will able to be connect to this using https://localhost:10443 or using the shell `ssh -p 10022 root@localhost`
+User: `root` / Password: `opnsense`
 
 ## Development
 
-   # install glide, whichever way
-   brew install glide
+    # install glide, whichever way
+    brew install glide
 
-   # fetch the dependencies
-   glide install
+    # fetch the dependencies
+    glide install
 
