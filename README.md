@@ -18,7 +18,11 @@ You need to create a .env for the secrets
 ## Usage
 
     opn --help
-    opn ccd create foo "10.10.10.1/24"
+    opn openvpn ccd --help
+    opn openvpn ccd create foo --tunnel "10.10.10.1/24"
+    opn openvpn ccd update foo --tunnel "11.11.11.1/24"
+    opn openvpn ccd show foo
+    opn openvpn ccd rm foo --tunnel "10.10.10.1/24"
 
 ## Test instance ?
 
