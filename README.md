@@ -40,4 +40,7 @@ User: `root` / Password: `opnsense`
 
     # fetch the dependencies
     glide install
+    
+    # building
+    go build -o dist/opn opn.go
 
