@@ -56,9 +56,12 @@ func (opn *OPNsense) CcdCreate(ccd Ccd, update bool) (string, error) {
 	}
 
 	if response.StatusCode == 200 {
+		type data struct {
+			Uuid string `json:"uuid"`
+		}
 		var resultContainer struct {
-			Result string `json:"result"`
-			Uuid string `json:"modified_uuid"`
+			Result string `json:"status"`
+			Data data `json:"data"`
 		}
 		jsonError := json.NewDecoder(response.Body).Decode(&resultContainer)
 
@@ -66,16 +69,19 @@ func (opn *OPNsense) CcdCreate(ccd Ccd, update bool) (string, error) {
 			return "", jsonError
 		}
 		// else
-		return resultContainer.Uuid, nil
+		return resultContainer.Data.Uuid, nil
 	} else {
-		var resultContainer struct {
-			Result string `json:"result"`
+		var container struct {
+			Status string `json:"status"`
+			Message string `json:"message"`
 		}
-		jsonError := json.NewDecoder(response.Body).Decode(&resultContainer)
+
+		jsonError := json.NewDecoder(response.Body).Decode(&container)
 		if jsonError != nil {
 			return "", jsonError
 		}
-		return "", errors.New(resultContainer.Result)
+
+		return "", errors.New(container.Message)
 	}
 	// else
 	return "", nil
@@ -104,7 +110,7 @@ func (opn *OPNsense) CcdRemove(commonName string) (string, error) {
 
 	if response.StatusCode == 200 {
 		var container struct {
-			Uuid string `json:"removed_uuid"`
+			Uuid string `json:"uuid"`
 		}
 		jsonError := json.NewDecoder(response.Body).Decode(&container)
 

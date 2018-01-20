@@ -57,3 +57,10 @@ func OPNsenseConfig() *opnsenseapi.OPNsense {
 		NoSslVerify: os.Getenv("OPN_NOSSLVERIFY") == "1",
 	}
 }
+
+func boolToInt(b bool) int {
+	if b {
+		return 1
+	}
+	return 0
+}

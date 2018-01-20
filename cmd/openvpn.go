@@ -53,27 +53,7 @@ func init() {
 //	rmCcdCommanName = rmCcdCommand.Arg("commonName", "The common name to remove").String()
 //)
 //
-//func main() {
-//
-//	switch command {
-//	case "openvpn ccd create":
-//		ccd := opnsense.Ccd{
-//			CommonName:     *createCcdCommanName,
-//			TunnelNetwork:  *createTunnel4Cidr,
-//			TunnelNetwork6: *createTunnel6Cidr,
-//			LocalNetwork:   *createLocal4Cidr,
-//			LocalNetwork6:  *createLocal6Cidr,
-//			RemoteNetwork:  *createRemote4Cidr,
-//			RemoteNetwork6: *createRemote6Cidr,
-//			Block:          *createBlock,
-//			PushReset:      *createPushReset,
-//		}
-//
-//		var uuid, err = opn.CcdCreate(ccd, false)
-//		if err != nil {
-//			log.Fatal(err)
-//		}
-//		fmt.Println(uuid)
+
 //	case "openvpn ccd update":
 //		ccd := opnsense.Ccd{
 //			CommonName:     *updateCcdCommanName,

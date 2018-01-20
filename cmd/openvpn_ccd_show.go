@@ -13,13 +13,13 @@ var openvpnCcdShowCmd = &cobra.Command{
 }
 
 func init() {
-	//openvpnCcdCmd.MarkPersistentFlagRequired("commonName")
+	openvpnCcdShowCmd.Flags().StringVarP(&commonName, "commonName", "c","", "The common name to show")
+	openvpnCcdShowCmd.MarkFlagRequired("commonName")
+
 	openvpnCcdCmd.AddCommand(openvpnCcdShowCmd)
 }
 
 func showCcdRun(cmd *cobra.Command, args []string) {
-
-	cmd.MarkPersistentFlagRequired("commonName")
 	opn := OPNsenseConfig()
 	var ccd, err = opn.CcdGet(commonName)
 	if err != nil {

@@ -6,6 +6,14 @@ import (
 
 var (
 	commonName string
+	tunnel string
+	tunnel6 string
+	local string
+	local6 string
+	remote string
+	remote6 string
+	pushRest bool
+	block bool
 )
 
 var openvpnCcdCmd = &cobra.Command{
@@ -15,5 +23,4 @@ var openvpnCcdCmd = &cobra.Command{
 
 func init() {
 	openvpnCmd.AddCommand(openvpnCcdCmd)
-	openvpnCcdCmd.PersistentFlags().StringVarP(&commonName, "commonName", "c","", "The common name to show")
 }

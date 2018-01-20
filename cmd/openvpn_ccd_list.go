@@ -18,9 +18,11 @@ func init() {
 
 func ccdListRun(cmd *cobra.Command, args []string) {
 	opn := OPNsenseConfig()
-	var ccd, err = opn.CcdList()
+	var ccds, err = opn.CcdList()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(ccd)
+	for _, ccd := range ccds {
+		fmt.Println(ccd)
+	}
 }
