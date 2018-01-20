@@ -23,16 +23,16 @@ You need to create a .env (dotenv) for the secrets, or expose them into your ENV
     opn openvpn ccd --help
     opn openvpn ccd create -c foo --tunnel "10.10.10.1/24"
     opn openvpn ccd update -c foo --tunnel "11.11.11.1/24"
-    opn openvpn ccd rm -c foo --tunnel "10.10.10.1/24"
     opn openvpn ccd show -c foo
+    opn openvpn ccd rm -c foo --tunnel "10.10.10.1/24"
     opn openvpn ccd list
 
     # unbound host entries
-    opn unbound hostentry create
-    opn unbound hostentry update
-    opn unbound hostentry del
-    opn unbound hostentry show
-    opn unbound hostentry rm
+    opn unbound hostentry create --host foo --domain bar.tld --ip 10.10.10.1
+    opn unbound hostentry update --host foo --domain bar.tld --ip 10.10.10.2
+    opn unbound hostentry show --host foo --domain bar.tld
+    opn unbound hostentry rm --host foo --domain bar.tld
+    opn unbound hostentry list
 
 ## Test instance ?
 
