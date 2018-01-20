@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"fmt"
 	"log"
+	"github.com/eugenmayer/opnsense-cli/opnsense/api/openvpn"
 )
 
 var openvpnCcdShowCmd = &cobra.Command{
@@ -20,8 +21,9 @@ func init() {
 }
 
 func showCcdRun(_ *cobra.Command, _ []string) {
-	opn := OPNsenseConfig()
-	var ccd, err = opn.CcdGet(CCDcommonName)
+	var openvpnApi = openvpn.OpenVpnApi{GetOPNsenseApi() }
+
+	var ccd, err = openvpnApi.CcdGet(CCDcommonName)
 	if err != nil {
 		log.Fatal(err)
 	}

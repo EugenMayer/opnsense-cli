@@ -1,4 +1,4 @@
-package api
+package openvpn
 
 import (
 	"net/http"
@@ -7,7 +7,12 @@ import (
 	"io/ioutil"
 	"errors"
 	"bytes"
+	coreapi "github.com/eugenmayer/opnsense-cli/opnsense/api"
 )
+
+type OpenVpnApi struct {
+	*coreapi.OPNsense
+}
 
 type Ccd struct {
 	CommonName string `json:"common_name"`
@@ -21,7 +26,7 @@ type Ccd struct {
 	PushReset string `json:"push_reset"`
 }
 
-func (opn *OPNsense) CcdCreate(ccd Ccd, update bool) (string, error) {
+func (opn *OpenVpnApi) CcdCreate(ccd Ccd, update bool) (string, error) {
 	// endpoint
 	var endpoint string
 
@@ -50,7 +55,7 @@ func (opn *OPNsense) CcdCreate(ccd Ccd, update bool) (string, error) {
 		return "", reqCreationErr
 	}
 
-	var response, reqErr = opn.send(request)
+	var response, reqErr = opn.Send(request)
 	if reqErr != nil {
 		return "", reqErr
 	}
@@ -88,7 +93,7 @@ func (opn *OPNsense) CcdCreate(ccd Ccd, update bool) (string, error) {
 }
 
 
-func (opn *OPNsense) CcdRemove(commonName string) (string, error) {
+func (opn *OpenVpnApi) CcdRemove(commonName string) (string, error) {
 	// endpoint
 	var endpoint = opn.EndpointForPluginControllerMedthod("openvpn","ccd","delCcdByName")
 	var reqUrl = fmt.Sprintf("%s/%s", endpoint, commonName)
@@ -103,7 +108,7 @@ func (opn *OPNsense) CcdRemove(commonName string) (string, error) {
 		return "", reqCreationErr
 	}
 
-	var response, reqErr = opn.send(request)
+	var response, reqErr = opn.Send(request)
 	if reqErr != nil {
 		return "", reqErr
 	}
@@ -126,7 +131,7 @@ func (opn *OPNsense) CcdRemove(commonName string) (string, error) {
 	return "", nil
 }
 
-func (opn *OPNsense) CcdGet(commonName string) (Ccd, error){
+func (opn *OpenVpnApi) CcdGet(commonName string) (Ccd, error){
 	// endpoint
 	var endpoint = opn.EndpointForPluginControllerMedthod("openvpn","ccd","getCcdByName")
 
@@ -140,7 +145,7 @@ func (opn *OPNsense) CcdGet(commonName string) (Ccd, error){
 	}
 
 	// send it to the server
-	var response, reqErr = opn.send(request)
+	var response, reqErr = opn.Send(request)
 	if reqErr != nil {
 		bodyBytes, _ := ioutil.ReadAll(response.Body)
 		bodyString := string(bodyBytes)
@@ -176,7 +181,7 @@ func (opn *OPNsense) CcdGet(commonName string) (Ccd, error){
 }
 
 
-func (opn *OPNsense) CcdList() ([]Ccd, error){
+func (opn *OpenVpnApi) CcdList() ([]Ccd, error){
 	// endpoint
 	var endpoint = opn.EndpointForPluginControllerMedthod("openvpn","ccd","getCcd")
 
@@ -188,7 +193,7 @@ func (opn *OPNsense) CcdList() ([]Ccd, error){
 	}
 
 	// send it to the server
-	var response, reqErr = opn.send(request)
+	var response, reqErr = opn.Send(request)
 	if reqErr != nil {
 		bodyBytes, _ := ioutil.ReadAll(response.Body)
 		bodyString := string(bodyBytes)
@@ -224,7 +229,7 @@ func (opn *OPNsense) CcdList() ([]Ccd, error){
 	return []Ccd{}, nil
 }
 
-func (opn *OPNsense) CcdExists(commonName string) (bool, error){
+func (opn *OpenVpnApi) CcdExists(commonName string) (bool, error){
 	var ccd, err = opn.CcdGet(commonName)
 
 	if err != nil {

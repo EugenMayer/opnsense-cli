@@ -14,7 +14,7 @@ type OPNsense struct {
 	NoSslVerify bool
 }
 
-func (opn *OPNsense) send(request *http.Request) (*http.Response, error) {
+func (opn *OPNsense) Send(request *http.Request) (*http.Response, error) {
 	var client = &http.Client{}
 
 	if opn.NoSslVerify {

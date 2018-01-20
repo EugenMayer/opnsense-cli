@@ -4,7 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"log"
 	"fmt"
-	"github.com/eugenmayer/opnsense-cli/opnsense/api"
+	"github.com/eugenmayer/opnsense-cli/opnsense/api/openvpn"
 	"strconv"
 )
 
@@ -30,9 +30,8 @@ func init() {
 }
 
 func CcdCreateRun(cmd *cobra.Command, args []string) {
-	opn := OPNsenseConfig()
-
-	ccd := api.Ccd{
+	var openvpnApi = openvpn.OpenVpnApi{GetOPNsenseApi() }
+	ccd := openvpn.Ccd{
 		CommonName:     CCDcommonName,
 		TunnelNetwork:  CCDtunnel,
 		TunnelNetwork6: CCDtunnel6,
@@ -44,7 +43,7 @@ func CcdCreateRun(cmd *cobra.Command, args []string) {
 		Block:          strconv.Itoa(BoolToInt(CCDblock)),
 	}
 
-	var uuid, err = opn.CcdCreate(ccd, false)
+	var uuid, err = openvpnApi.CcdCreate(ccd, false)
 	if err != nil {
 		log.Fatal(err)
 	}

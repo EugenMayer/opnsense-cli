@@ -29,7 +29,7 @@ func init() {
 	RootCmd.PersistentFlags().BoolP("verbose", "v", false, "Activate for verbose")
 }
 
-func OPNsenseConfig() *opnsenseapi.OPNsense {
+func GetOPNsenseApi() *opnsenseapi.OPNsense {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal(fmt.Sprintf("Error with the dotenv environment: %s", err))
 	}
