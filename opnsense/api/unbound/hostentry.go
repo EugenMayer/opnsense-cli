@@ -30,6 +30,7 @@ func (opn *UnboundApi) HostEntryCreate(hostEntry HostEntry, update bool) (string
 
 	if update {
 		endpoint = opn.EndpointForPluginControllerMedthod("unbound","hostentry","setHostEntryByFQDN")
+		endpoint = fmt.Sprintf("%s/%s|%s",endpoint,hostEntry.Host,hostEntry.Domain)
 	} else {
 		endpoint = opn.EndpointForPluginControllerMedthod("unbound","hostentry","setHostEntry")
 	}

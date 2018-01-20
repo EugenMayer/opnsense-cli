@@ -8,6 +8,10 @@ var(
 	HOSTENTRYhost string
 	HOSTENTRYdomain string
 	HOSTENTRYip string
+	HOSTENTRYrr string
+	HOSTENTRYmxprio string
+	HOSTENTRYmx string
+	HOSTENTRYdescription string
 )
 
 var unboundHostEntryCmd = &cobra.Command{

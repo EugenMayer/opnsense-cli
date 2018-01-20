@@ -16,11 +16,9 @@ var unboundHostEntryShowCmd = &cobra.Command{
 func init() {
 	unboundHostEntryShowCmd.Flags().StringVarP(&HOSTENTRYhost, "host", "","", "the host part")
 	unboundHostEntryShowCmd.Flags().StringVarP(&HOSTENTRYdomain, "domain", "","", "the domain part")
-	//unboundHostEntryShowCmd.Flags().StringVarP(&HOSTENTRYip, "ip", "","", "the ip4 address like 10.10.10.10")
 
 	unboundHostEntryShowCmd.MarkFlagRequired("host")
 	unboundHostEntryShowCmd.MarkFlagRequired("domain")
-	unboundHostEntryShowCmd.MarkFlagRequired("ip")
 
 	unboundCmd.AddCommand(unboundHostEntryShowCmd)
 }
