@@ -15,33 +15,33 @@ var openvpnCcdUpdateCmd = &cobra.Command{
 }
 
 func init() {
-	openvpnCcdUpdateCmd.Flags().StringVarP(&commonName, "commonName", "c","", "The common name to show")
-	openvpnCcdUpdateCmd.Flags().StringVarP(&tunnel, "tunnel", "t","", "cidr for your tunnel network 10.10.10.5/24")
-	openvpnCcdUpdateCmd.Flags().StringVarP(&tunnel6, "tunnel6", "","", "cidr for your tunnel6 (ipv6)")
-	openvpnCcdUpdateCmd.Flags().StringVarP(&local, "local", "l","", "cidr for your local network 10.10.10.5/24")
-	openvpnCcdUpdateCmd.Flags().StringVarP(&local6, "local6", "","", "cidr for your local6 network 10.10.10.5/24")
-	openvpnCcdUpdateCmd.Flags().StringVarP(&remote, "remote", "r","", "cidr for your remote  network 10.10.10.5/24")
-	openvpnCcdUpdateCmd.Flags().StringVarP(&remote6, "remote6", "","", "cidr for your remote6 (ipv6)")
-	openvpnCcdUpdateCmd.Flags().BoolVarP(&pushRest, "pushRest", "p",false, "push a reset on the client, default is false")
-	openvpnCcdUpdateCmd.Flags().BoolVarP(&block, "block", "b",false, "block client, default is false")
-	openvpnCcdUpdateCmd.MarkFlagRequired("commonName")
+	openvpnCcdUpdateCmd.Flags().StringVarP(&CCDcommonName, "CCDcommonName", "c","", "The common name to show")
+	openvpnCcdUpdateCmd.Flags().StringVarP(&CCDtunnel, "CCDtunnel", "t","", "cidr for your CCDtunnel network 10.10.10.5/24")
+	openvpnCcdUpdateCmd.Flags().StringVarP(&CCDtunnel6, "CCDtunnel6", "","", "cidr for your CCDtunnel6 (ipv6)")
+	openvpnCcdUpdateCmd.Flags().StringVarP(&CCDlocal, "CCDlocal", "l","", "cidr for your CCDlocal network 10.10.10.5/24")
+	openvpnCcdUpdateCmd.Flags().StringVarP(&CCDlocal6, "CCDlocal6", "","", "cidr for your CCDlocal6 network 10.10.10.5/24")
+	openvpnCcdUpdateCmd.Flags().StringVarP(&CCDremote, "CCDremote", "r","", "cidr for your CCDremote  network 10.10.10.5/24")
+	openvpnCcdUpdateCmd.Flags().StringVarP(&CCDremote6, "CCDremote6", "","", "cidr for your CCDremote6 (ipv6)")
+	openvpnCcdUpdateCmd.Flags().BoolVarP(&CCDpushRest, "CCDpushRest", "p",false, "push a reset on the client, default is false")
+	openvpnCcdUpdateCmd.Flags().BoolVarP(&CCDblock, "CCDblock", "b",false, "CCDblock client, default is false")
+	openvpnCcdUpdateCmd.MarkFlagRequired("CCDcommonName")
 
-	openvpnCcdCmd.AddCommand(openvpnCcdUpdateCmd)
+	OpenvpnCcdCmd.AddCommand(openvpnCcdUpdateCmd)
 }
 
 func CcdUpdateRun(cmd *cobra.Command, args []string) {
 	opn := OPNsenseConfig()
 
 	ccd := api.Ccd{
-		CommonName:     commonName,
-		TunnelNetwork:  tunnel,
-		TunnelNetwork6: tunnel6,
-		LocalNetwork:   local,
-		LocalNetwork6:  local6,
-		RemoteNetwork:  remote,
-		RemoteNetwork6: remote6,
-		PushReset:      strconv.Itoa(boolToInt(pushRest)),
-		Block:          strconv.Itoa(boolToInt(block)),
+		CommonName:     CCDcommonName,
+		TunnelNetwork:  CCDtunnel,
+		TunnelNetwork6: CCDtunnel6,
+		LocalNetwork:   CCDlocal,
+		LocalNetwork6:  CCDlocal6,
+		RemoteNetwork:  CCDremote,
+		RemoteNetwork6: CCDremote6,
+		PushReset:      strconv.Itoa(BoolToInt(CCDpushRest)),
+		Block:          strconv.Itoa(BoolToInt(CCDblock)),
 	}
 
 	var uuid, err = opn.CcdCreate(ccd, true)

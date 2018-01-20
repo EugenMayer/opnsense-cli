@@ -9,7 +9,7 @@ Its precompiled and has no dependencies, so just download the binary and you are
     curl -Lo opn https://github.com/EugenMayer/opnsense-cli/raw/master/dist/opn
     chmod +x opn
 
-You need to create a .env for the secrets
+You need to create a .env (dotenv) for the secrets, or expose them into your ENV using `export`
 
     OPN_URL=https://localhost:10443
     OPN_APIKEY=5GWbPwKfXVLzgJnewKuu1IPw2HS7s510jKHmTM+rLA1y9VfEFE57yj/kJiWbXREB0EgpBK48u4gnyign
@@ -18,11 +18,21 @@ You need to create a .env for the secrets
 ## Usage
 
     opn --help
+
+    # openvpn CCDs ( client specific overrides )
     opn openvpn ccd --help
     opn openvpn ccd create -c foo --tunnel "10.10.10.1/24"
     opn openvpn ccd update -c foo --tunnel "11.11.11.1/24"
-    opn openvpn ccd show -c foo
     opn openvpn ccd rm -c foo --tunnel "10.10.10.1/24"
+    opn openvpn ccd show -c foo
+    opn openvpn ccd list
+
+    # unbound host entries
+    opn unbound hostentry create
+    opn unbound hostentry update
+    opn unbound hostentry del
+    opn unbound hostentry show
+    opn unbound hostentry rm
 
 ## Test instance ?
 

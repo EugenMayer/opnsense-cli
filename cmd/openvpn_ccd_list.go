@@ -13,7 +13,7 @@ var openvpnCcdListCmd = &cobra.Command{
 }
 
 func init() {
-	openvpnCcdCmd.AddCommand(openvpnCcdListCmd)
+	OpenvpnCcdCmd.AddCommand(openvpnCcdListCmd)
 }
 
 func ccdListRun(cmd *cobra.Command, args []string) {

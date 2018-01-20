@@ -5,22 +5,22 @@ import (
 )
 
 var (
-	commonName string
-	tunnel string
-	tunnel6 string
-	local string
-	local6 string
-	remote string
-	remote6 string
-	pushRest bool
-	block bool
+	CCDcommonName string
+	CCDtunnel     string
+	CCDtunnel6    string
+	CCDlocal      string
+	CCDlocal6     string
+	CCDremote     string
+	CCDremote6    string
+	CCDpushRest   bool
+	CCDblock      bool
 )
 
-var openvpnCcdCmd = &cobra.Command{
+var OpenvpnCcdCmd = &cobra.Command{
 	Use:   "ccd",
 	Short: "Manage OpenVPN CCD entries",
 }
 
 func init() {
-	openvpnCmd.AddCommand(openvpnCcdCmd)
+	openvpnCmd.AddCommand(OpenvpnCcdCmd)
 }
