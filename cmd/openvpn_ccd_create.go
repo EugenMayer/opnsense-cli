@@ -15,16 +15,16 @@ var openvpnCcdCreateCmd = &cobra.Command{
 }
 
 func init() {
-	openvpnCcdCreateCmd.Flags().StringVarP(&CCDcommonName, "CCDcommonName", "c","", "The common name to show")
-	openvpnCcdCreateCmd.Flags().StringVarP(&CCDtunnel, "CCDtunnel", "t","", "cidr for your CCDtunnel network 10.10.10.5/24")
-	openvpnCcdCreateCmd.Flags().StringVarP(&CCDtunnel6, "CCDtunnel6", "","", "cidr for your CCDtunnel6 (ipv6)")
-	openvpnCcdCreateCmd.Flags().StringVarP(&CCDlocal, "CCDlocal", "l","", "cidr for your CCDlocal network 10.10.10.5/24")
-	openvpnCcdCreateCmd.Flags().StringVarP(&CCDlocal6, "CCDlocal6", "","", "cidr for your CCDlocal6 network 10.10.10.5/24")
-	openvpnCcdCreateCmd.Flags().StringVarP(&CCDremote, "CCDremote", "r","", "cidr for your CCDremote  network 10.10.10.5/24")
-	openvpnCcdCreateCmd.Flags().StringVarP(&CCDremote6, "CCDremote6", "","", "cidr for your CCDremote6 (ipv6)")
-	openvpnCcdCreateCmd.Flags().BoolVarP(&CCDpushRest, "CCDpushRest", "p",false, "push a reset on the client, default is false")
-	openvpnCcdCreateCmd.Flags().BoolVarP(&CCDblock, "CCDblock", "b",false, "CCDblock client, default is false")
-	openvpnCcdCreateCmd.MarkFlagRequired("CCDcommonName")
+	openvpnCcdCreateCmd.Flags().StringVarP(&CCDcommonName, "commonName", "c","", "The common name to show")
+	openvpnCcdCreateCmd.Flags().StringVarP(&CCDtunnel, "tunnel", "t","", "cidr for your CCDtunnel network 10.10.10.5/24")
+	openvpnCcdCreateCmd.Flags().StringVarP(&CCDtunnel6, "tunnel6", "","", "cidr for your CCDtunnel6 (ipv6)")
+	openvpnCcdCreateCmd.Flags().StringVarP(&CCDlocal, "local", "l","", "cidr for your CCDlocal network 10.10.10.5/24")
+	openvpnCcdCreateCmd.Flags().StringVarP(&CCDlocal6, "local6", "","", "cidr for your CCDlocal6 network 10.10.10.5/24")
+	openvpnCcdCreateCmd.Flags().StringVarP(&CCDremote, "remote", "r","", "cidr for your CCDremote  network 10.10.10.5/24")
+	openvpnCcdCreateCmd.Flags().StringVarP(&CCDremote6, "remote6", "","", "cidr for your CCDremote6 (ipv6)")
+	openvpnCcdCreateCmd.Flags().BoolVarP(&CCDpushRest, "pushRest", "p",false, "push a reset on the client, default is false")
+	openvpnCcdCreateCmd.Flags().BoolVarP(&CCDblock, "block", "b",false, "block client, default is false")
+	openvpnCcdCreateCmd.MarkFlagRequired("commonName")
 
 	OpenvpnCcdCmd.AddCommand(openvpnCcdCreateCmd)
 }

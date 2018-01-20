@@ -5,7 +5,9 @@ import (
 )
 
 var(
-
+	HOSTENTRYhost string
+	HOSTENTRYdomain string
+	HOSTENTRYip string
 )
 
 var unboundHostEntryCmd = &cobra.Command{
