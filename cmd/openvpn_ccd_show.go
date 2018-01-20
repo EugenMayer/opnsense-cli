@@ -10,17 +10,17 @@ import (
 var openvpnCcdShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show a OpenVPN CCD entry",
-	Run:  showCcdRun,
+	Run:  CcdRmRun,
 }
 
 func init() {
-	openvpnCcdShowCmd.Flags().StringVarP(&CCDcommonName, "CCDcommonName", "c","", "The common name to show")
-	openvpnCcdShowCmd.MarkFlagRequired("CCDcommonName")
+	openvpnCcdShowCmd.Flags().StringVarP(&CCDcommonName, "commonName", "c","", "The common-name to identify the CCD")
+	openvpnCcdShowCmd.MarkFlagRequired("commonName")
 
 	OpenvpnCcdCmd.AddCommand(openvpnCcdShowCmd)
 }
 
-func showCcdRun(_ *cobra.Command, _ []string) {
+func CcdRmRun(_ *cobra.Command, _ []string) {
 	var openvpnApi = openvpn.OpenVpnApi{GetOPNsenseApi() }
 
 	var ccd, err = openvpnApi.CcdGet(CCDcommonName)
