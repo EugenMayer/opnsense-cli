@@ -15,25 +15,18 @@ type UnboundApi struct {
 }
 
 type HostEntry struct {
-	Host string `json:"host"`
-	Domain string `json:"domain"`
-	Ip string `json:"ip	"`
-	Rr string `json:"rr"`
-	Mxprio string `json:"mxprio"`
-	Mx string `json:"mx"`
+	Host        string `json:"host"`
+	Domain      string `json:"domain"`
+	Ip          string `json:"ip"`
+	Rr          string `json:"rr"`
+	Mxprio      string `json:"mxprio"`
+	Mx          string `json:"mx"`
 	Description string `json:"descr"`
 }
 
-func (opn *UnboundApi) HostEntryCreate(hostEntry HostEntry, update bool) (string, error) {
+func (opn *UnboundApi) HostEntryCreateOrUpdate(hostEntry HostEntry) (string, error) {
 	// endpoint
-	var endpoint string
-
-	if update {
-		endpoint = opn.EndpointForPluginControllerMedthod("unbound","hostentry","setHostEntryByFQDN")
-		endpoint = fmt.Sprintf("%s/%s|%s",endpoint,hostEntry.Host,hostEntry.Domain)
-	} else {
-		endpoint = opn.EndpointForPluginControllerMedthod("unbound","hostentry","setHostEntry")
-	}
+	var endpoint = opn.EndpointForPluginControllerMedthod("unbound", "hostentry", "setHostEntry")
 
 	var container struct {
 		HostEntry HostEntry `json:"hostentry"`
@@ -65,7 +58,7 @@ func (opn *UnboundApi) HostEntryCreate(hostEntry HostEntry, update bool) (string
 		}
 		var resultContainer struct {
 			Result string `json:"status"`
-			Data data `json:"data"`
+			Data   data   `json:"data"`
 		}
 		jsonError := json.NewDecoder(response.Body).Decode(&resultContainer)
 
@@ -76,7 +69,7 @@ func (opn *UnboundApi) HostEntryCreate(hostEntry HostEntry, update bool) (string
 		return resultContainer.Data.FQDN, nil
 	} else {
 		var container struct {
-			Status string `json:"status"`
+			Status  string `json:"status"`
 			Message string `json:"message"`
 		}
 
@@ -91,10 +84,9 @@ func (opn *UnboundApi) HostEntryCreate(hostEntry HostEntry, update bool) (string
 	return "", nil
 }
 
-
-func (opn *UnboundApi) HostEntryGet(host string, domain string) (HostEntry, error){
+func (opn *UnboundApi) HostEntryGet(host string, domain string) (HostEntry, error) {
 	// endpoint
-	var endpoint = opn.EndpointForPluginControllerMedthod("unbound","hostentry","getHostEntry")
+	var endpoint = opn.EndpointForPluginControllerMedthod("unbound", "hostentry", "getHostEntry")
 
 	var pseudoFQDN = fmt.Sprintf("%s|%s", host, domain)
 	// final request URL
@@ -111,12 +103,12 @@ func (opn *UnboundApi) HostEntryGet(host string, domain string) (HostEntry, erro
 	if reqErr != nil {
 		bodyBytes, _ := ioutil.ReadAll(response.Body)
 		bodyString := string(bodyBytes)
-		return HostEntry{}, errors.New(fmt.Sprintf("%s:%s",bodyString, reqErr))
+		return HostEntry{}, errors.New(fmt.Sprintf("%s:%s", bodyString, reqErr))
 	}
 
 	if response.StatusCode == 200 {
 		var container struct {
-			Status string `json:"status"`
+			Status    string    `json:"status"`
 			HostEntry HostEntry `json:"data"`
 		}
 		jsonError := json.NewDecoder(response.Body).Decode(&container)
@@ -128,7 +120,7 @@ func (opn *UnboundApi) HostEntryGet(host string, domain string) (HostEntry, erro
 		return container.HostEntry, nil
 	} else {
 		var container struct {
-			Status string `json:"status"`
+			Status  string `json:"status"`
 			Message string `json:"message"`
 		}
 
@@ -136,8 +128,96 @@ func (opn *UnboundApi) HostEntryGet(host string, domain string) (HostEntry, erro
 		if jsonError != nil {
 			return HostEntry{}, jsonError
 		}
-		return HostEntry{}, errors.New(fmt.Sprintf("%s",container.Message))
+		return HostEntry{}, errors.New(fmt.Sprintf("%s", container.Message))
 	}
 	// else
 	return HostEntry{}, nil
+}
+
+
+func (opn *UnboundApi) HostEntryList() ([]HostEntry, error){
+	// endpoint
+	var endpoint = opn.EndpointForPluginControllerMedthod("unbound","hostentry","getHostEntry")
+
+	// create our Request
+	var request, reqCreationErr = http.NewRequest("GET", endpoint, nil)
+
+	if reqCreationErr != nil {
+		return []HostEntry{}, reqCreationErr
+	}
+
+	// send it to the server
+	var response, reqErr = opn.Send(request)
+	if reqErr != nil {
+		bodyBytes, _ := ioutil.ReadAll(response.Body)
+		bodyString := string(bodyBytes)
+		return []HostEntry{}, errors.New(fmt.Sprintf("%s:%s",bodyString, reqErr))
+	}
+
+	if response.StatusCode == 200 {
+		var container struct {
+			Status string `json:"status"`
+			Ccds []HostEntry `json:"data"`
+		}
+
+		jsonError := json.NewDecoder(response.Body).Decode(&container)
+
+		if jsonError != nil {
+			return []HostEntry{}, jsonError
+		}
+		// else
+		return container.Ccds, nil
+	} else {
+		var container struct {
+			Status string `json:"status"`
+			Message string `json:"message"`
+		}
+
+		jsonError := json.NewDecoder(response.Body).Decode(&container)
+		if jsonError != nil {
+			return []HostEntry{}, jsonError
+		}
+		return []HostEntry{}, errors.New(fmt.Sprintf("%s:%s",container.Message, reqErr))
+	}
+	// else
+	return []HostEntry{}, nil
+}
+
+
+func (opn *UnboundApi) HostEntryRemove(host string, domain string) (string, error) {
+	// endpoint
+	var endpoint = opn.EndpointForPluginControllerMedthod("unbound","hostentry","delHostEntry")
+	var reqUrl = fmt.Sprintf("%s/%s|%s", endpoint, host, domain)
+
+	// create our Request
+	jsonBody := new(bytes.Buffer)
+	json.NewEncoder(jsonBody).Encode(make([]string, 0))
+	request, reqCreationErr := http.NewRequest("POST", reqUrl, jsonBody)
+	request.Header.Set("Content-Type", "application/json")
+
+	if reqCreationErr != nil {
+		return "", reqCreationErr
+	}
+
+	var response, reqErr = opn.Send(request)
+	if reqErr != nil {
+		return "", reqErr
+	}
+
+	if response.StatusCode == 200 {
+		var container struct {
+			FQDN string `json:"fqdn"`
+		}
+		jsonError := json.NewDecoder(response.Body).Decode(&container)
+
+		if jsonError != nil {
+			return "", jsonError
+		}
+		// else
+		return container.FQDN, nil
+	} else {
+		return "", errors.New("error in response")
+	}
+	// else
+	return "", nil
 }

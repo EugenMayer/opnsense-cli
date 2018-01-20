@@ -9,7 +9,7 @@ import (
 
 var unboundHostEntryShowCmd = &cobra.Command{
 	Use:   "show",
-	Short: "Show a OpenVPN CCD entry",
+	Short: "Show a Unbound Host entry",
 	Run:   HostEntryShowRun,
 }
 
