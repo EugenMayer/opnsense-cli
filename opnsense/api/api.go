@@ -1,4 +1,4 @@
-package opnsense
+package api
 
 import (
 	"fmt"
@@ -24,7 +24,6 @@ func (opn *OPNsense) send(request *http.Request) (*http.Response, error) {
 	}
 
 	request.SetBasicAuth(opn.ApiKey, opn.ApiSecret)
-	request.Header.Set("Content-Type", "application/json")
 	return client.Do(request)
 }
 

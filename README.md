@@ -19,16 +19,16 @@ You need to create a .env for the secrets
 
     opn --help
     opn openvpn ccd --help
-    opn openvpn ccd create foo --tunnel "10.10.10.1/24"
-    opn openvpn ccd update foo --tunnel "11.11.11.1/24"
-    opn openvpn ccd show foo
-    opn openvpn ccd rm foo --tunnel "10.10.10.1/24"
+    opn openvpn ccd create -c foo --tunnel "10.10.10.1/24"
+    opn openvpn ccd update -c foo --tunnel "11.11.11.1/24"
+    opn openvpn ccd show -c foo
+    opn openvpn ccd rm -c foo --tunnel "10.10.10.1/24"
 
 ## Test instance ?
 
 If you miss yourself a opnsense instance to test agains, why do you just dont start one? :)
 
-    vagrant up
+    vagrant up opnsense
 
 You will able to be connect to this using https://localhost:10443 or using the shell `ssh -p 10022 root@localhost`
 User: `root` / Password: `opnsense`

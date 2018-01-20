@@ -48,9 +48,9 @@ Vagrant.configure("2") do |config|
       run: "once"
 
     # replace the public ssh key for the root user with the one vagrant deployed for comms before we restart - or we lock vagrant out
-    test.vm.provision "inject-pubkey-into-config", type: "local_shell", command: "export PUB=$(ssh-keygen -f .vagrant/machines/opnsense/virtualbox/private_key -y | base64) && xmlstarlet ed --inplace -u '/opnsense/system/user/authorizedkeys' -v \"$PUB\" config-openvpn.xml"
+    test.vm.provision "inject-pubkey-into-config", type: "local_shell", command: "export PUB=$(ssh-keygen -f .vagrant/machines/opnsense/virtualbox/private_key -y | base64) && xmlstarlet ed --inplace -u '/opnsense/system/user/authorizedkeys' -v \"$PUB\" config.xml"
     # apply our configuration so we have a configured radius with users and clients and an active openvpn server
-    test.vm.provision "file", source: "./config-openvpn.xml", destination: "/conf/config.xml"
+    test.vm.provision "file", source: "./config.xml", destination: "/conf/config.xml"
     test.vm.provision "shell",
       inline: "echo 'rebooting to apply config' && reboot"
 

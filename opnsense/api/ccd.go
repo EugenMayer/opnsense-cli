@@ -1,4 +1,4 @@
-package opnsense
+package api
 
 import (
 	"net/http"
@@ -44,6 +44,7 @@ func (opn *OPNsense) CcdCreate(ccd Ccd, update bool) (string, error) {
 	}
 
 	request, reqCreationErr := http.NewRequest("POST", endpoint, jsonBody)
+	request.Header.Set("Content-Type", "application/json")
 
 	if reqCreationErr != nil {
 		return "", reqCreationErr
@@ -90,6 +91,7 @@ func (opn *OPNsense) CcdRemove(commonName string) (string, error) {
 	jsonBody := new(bytes.Buffer)
 	json.NewEncoder(jsonBody).Encode(make([]string, 0))
 	request, reqCreationErr := http.NewRequest("POST", reqUrl, jsonBody)
+	request.Header.Set("Content-Type", "application/json")
 
 	if reqCreationErr != nil {
 		return "", reqCreationErr
@@ -134,12 +136,15 @@ func (opn *OPNsense) CcdGet(commonName string) (Ccd, error){
 	// send it to the server
 	var response, reqErr = opn.send(request)
 	if reqErr != nil {
-		return Ccd{}, reqErr
+		bodyBytes, _ := ioutil.ReadAll(response.Body)
+		bodyString := string(bodyBytes)
+		return Ccd{}, errors.New(fmt.Sprintf("%s:%s",bodyString, reqErr))
 	}
 
 	if response.StatusCode == 200 {
 		var container struct {
-			Ccd Ccd `json:"ccd"`
+			Status string `json:"status"`
+			Ccd Ccd `json:"data"`
 		}
 		jsonError := json.NewDecoder(response.Body).Decode(&container)
 
@@ -149,10 +154,68 @@ func (opn *OPNsense) CcdGet(commonName string) (Ccd, error){
 		// else
 		return container.Ccd, nil
 	} else {
-		return Ccd{}, errors.New("error in response")
+		var container struct {
+			Status string `json:"status"`
+			Message string `json:"message"`
+		}
+
+		jsonError := json.NewDecoder(response.Body).Decode(&container)
+		if jsonError != nil {
+			return Ccd{}, jsonError
+		}
+		return Ccd{}, errors.New(fmt.Sprintf("%s",container.Message))
 	}
 	// else
 	return Ccd{}, nil
+}
+
+
+func (opn *OPNsense) CcdList() ([]Ccd, error){
+	// endpoint
+	var endpoint = opn.EndpointForPluginControllerMedthod("openvpn","ccd","getCcd")
+
+	// create our Request
+	var request, reqCreationErr = http.NewRequest("GET", endpoint, nil)
+
+	if reqCreationErr != nil {
+		return []Ccd{}, reqCreationErr
+	}
+
+	// send it to the server
+	var response, reqErr = opn.send(request)
+	if reqErr != nil {
+		bodyBytes, _ := ioutil.ReadAll(response.Body)
+		bodyString := string(bodyBytes)
+		return []Ccd{}, errors.New(fmt.Sprintf("%s:%s",bodyString, reqErr))
+	}
+
+	if response.StatusCode == 200 {
+		var container struct {
+			Status string `json:"status"`
+			Ccds []Ccd `json:"data"`
+		}
+
+		jsonError := json.NewDecoder(response.Body).Decode(&container)
+
+		if jsonError != nil {
+			return []Ccd{}, jsonError
+		}
+		// else
+		return container.Ccds, nil
+	} else {
+		var container struct {
+			Status string `json:"status"`
+			Message string `json:"message"`
+		}
+
+		jsonError := json.NewDecoder(response.Body).Decode(&container)
+		if jsonError != nil {
+			return []Ccd{}, jsonError
+		}
+		return []Ccd{}, errors.New(fmt.Sprintf("%s:%s",container.Message, reqErr))
+	}
+	// else
+	return []Ccd{}, nil
 }
 
 func (opn *OPNsense) CcdExists(commonName string) (bool, error){
@@ -167,23 +230,4 @@ func (opn *OPNsense) CcdExists(commonName string) (bool, error){
 	}
 	// else
 	return false, nil
-}
-
-func handleBasicResponse(response http.Response, container interface{}) (interface{}, error){
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return Ccd{}, err
-	}
-
-	if response.StatusCode == 200 {
-		jsonError := json.Unmarshal(body, &container)
-
-		if jsonError != nil {
-			return nil, jsonError
-		}
-		// else
-		return container, nil
-	} else {
-		return nil, errors.New("error in response")
-	}
 }
