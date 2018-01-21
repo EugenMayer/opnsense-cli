@@ -30,33 +30,11 @@ func init() {
 }
 
 func GetOPNsenseApi() *opnsenseapi.OPNsense {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal(fmt.Sprintf("Error with the dotenv environment: %s", err))
-	}
-
-	if _, isset := os.LookupEnv("OPN_URL"); !isset {
-		log.Fatal(fmt.Println("Please set the OPN_URL to your opnsense opnUrl like https://myopnsense:10443"))
-	}
-
-	if _, isset := os.LookupEnv("OPN_APIKEY"); !isset {
-		log.Fatal(fmt.Println("Please set OPN_APIKEY to your opnsense api apiKey"))
-	}
-
-	if _, isset := os.LookupEnv("OPN_APISECRET"); !isset {
-		log.Fatal(fmt.Println("Please set OPN_APISECRET to your opnsense api apiSecret"))
-	}
-
-	var parsedUrl, err = url.Parse(os.Getenv("OPN_URL"))
+	connection, err := opnsenseapi.ConfiugreFromEnv()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal()
 	}
-
-	return &opnsenseapi.OPNsense{
-		BaseUrl:     *parsedUrl,
-		ApiKey:      os.Getenv("OPN_APIKEY"),
-		ApiSecret:   os.Getenv("OPN_APISECRET"),
-		NoSslVerify: os.Getenv("OPN_NOSSLVERIFY") == "1",
-	}
+	return connection
 }
 
 func BoolToInt(b bool) int {
