@@ -241,3 +241,18 @@ func (opn *UnboundApi) HostEntryRemove(host string, domain string) (string, erro
 	// else
 	return "", nil
 }
+
+
+func (opn *UnboundApi) HostEntryExists(host string, domain string) (bool, error){
+	var hostEntry, err = opn.HostEntryGet(host, domain)
+
+	if err != nil {
+		return true, err
+	}
+
+	if hostEntry.Host != host {
+		return true, nil
+	}
+	// else
+	return false, nil
+}
