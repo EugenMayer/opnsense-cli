@@ -35,17 +35,15 @@ func (opn *UnboundApi) HostEntryCreateOrUpdate(hostEntry HostEntry) (string, err
 	container.HostEntry = hostEntry
 	// create our Request
 	jsonBody := new(bytes.Buffer)
-	encodingErr := json.NewEncoder(jsonBody).Encode(container)
-	if encodingErr != nil {
-		return "", encodingErr
+	if err := json.NewEncoder(jsonBody).Encode(container); err != nil {
+		return "", err
 	}
 
 	request, reqCreationErr := http.NewRequest("POST", endpoint, jsonBody)
-	request.Header.Set("Content-Type", "application/json")
-
 	if reqCreationErr != nil {
 		return "", reqCreationErr
 	}
+	request.Header.Set("Content-Type", "application/json")
 
 	var response, reqErr = opn.Send(request)
 	if reqErr != nil {
@@ -60,10 +58,9 @@ func (opn *UnboundApi) HostEntryCreateOrUpdate(hostEntry HostEntry) (string, err
 			Result string `json:"status"`
 			Data   data   `json:"data"`
 		}
-		jsonError := json.NewDecoder(response.Body).Decode(&resultContainer)
 
-		if jsonError != nil {
-			return "", jsonError
+		if err := json.NewDecoder(response.Body).Decode(&resultContainer); err != nil {
+			return "", err
 		}
 		// else
 		return resultContainer.Data.FQDN, nil
@@ -73,9 +70,8 @@ func (opn *UnboundApi) HostEntryCreateOrUpdate(hostEntry HostEntry) (string, err
 			Message string `json:"message"`
 		}
 
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
-		if jsonError != nil {
-			return "", jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return "", err
 		}
 
 		return "", errors.New(container.Message)
@@ -111,10 +107,9 @@ func (opn *UnboundApi) HostEntryGet(host string, domain string) (HostEntry, erro
 			Status    string    `json:"status"`
 			HostEntry HostEntry `json:"data"`
 		}
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
 
-		if jsonError != nil {
-			return HostEntry{}, jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return HostEntry{}, err
 		}
 		// else
 		return container.HostEntry, nil
@@ -124,9 +119,8 @@ func (opn *UnboundApi) HostEntryGet(host string, domain string) (HostEntry, erro
 			Message string `json:"message"`
 		}
 
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
-		if jsonError != nil {
-			return HostEntry{}, jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return HostEntry{}, err
 		}
 		return HostEntry{}, errors.New(fmt.Sprintf("%s", container.Message))
 	}
@@ -134,10 +128,9 @@ func (opn *UnboundApi) HostEntryGet(host string, domain string) (HostEntry, erro
 	return HostEntry{}, nil
 }
 
-
-func (opn *UnboundApi) HostEntryList() ([]HostEntry, error){
+func (opn *UnboundApi) HostEntryList() ([]HostEntry, error) {
 	// endpoint
-	var endpoint = opn.EndpointForPluginControllerMedthod("unbound","hostentry","getHostEntry")
+	var endpoint = opn.EndpointForPluginControllerMedthod("unbound", "hostentry", "getHostEntry")
 
 	// create our Request
 	var request, reqCreationErr = http.NewRequest("GET", endpoint, nil)
@@ -151,60 +144,56 @@ func (opn *UnboundApi) HostEntryList() ([]HostEntry, error){
 	if reqErr != nil {
 		bodyBytes, _ := ioutil.ReadAll(response.Body)
 		bodyString := string(bodyBytes)
-		return []HostEntry{}, errors.New(fmt.Sprintf("%s:%s",bodyString, reqErr))
+		return []HostEntry{}, errors.New(fmt.Sprintf("%s:%s", bodyString, reqErr))
 	}
 
 	if response.StatusCode == 200 {
 		var container struct {
-			Status string `json:"status"`
-			Ccds []HostEntry `json:"data"`
+			Status string      `json:"status"`
+			Ccds   []HostEntry `json:"data"`
 		}
 
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
-
-		if jsonError != nil {
-			return []HostEntry{}, jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return []HostEntry{}, err
 		}
 		// else
 		return container.Ccds, nil
 	} else {
 		var container struct {
-			Status string `json:"status"`
+			Status  string `json:"status"`
 			Message string `json:"message"`
 		}
 
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
-		if jsonError != nil {
-			return []HostEntry{}, jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return []HostEntry{}, err
 		}
-		return []HostEntry{}, errors.New(fmt.Sprintf("%s:%s",container.Message, reqErr))
+		return []HostEntry{}, errors.New(fmt.Sprintf("%s:%s", container.Message, reqErr))
 	}
 	// else
 	return []HostEntry{}, nil
 }
 
-
 func (opn *UnboundApi) HostEntryRemove(host string, domain string) (string, error) {
 	// endpoint
-	var endpoint = opn.EndpointForPluginControllerMedthod("unbound","hostentry","delHostEntry")
+	var endpoint = opn.EndpointForPluginControllerMedthod("unbound", "hostentry", "delHostEntry")
 
 	var container struct {
 		HostEntry HostEntry `json:"hostentry"`
 	}
 	container.HostEntry = HostEntry{
-		Host:host,
-		Domain:domain,
+		Host:   host,
+		Domain: domain,
 	}
 
 	// create our Request
 	jsonBody := new(bytes.Buffer)
 	json.NewEncoder(jsonBody).Encode(container)
-	request, reqCreationErr := http.NewRequest("POST", endpoint, jsonBody)
-	request.Header.Set("Content-Type", "application/json")
 
+	request, reqCreationErr := http.NewRequest("POST", endpoint, jsonBody)
 	if reqCreationErr != nil {
 		return "", reqCreationErr
 	}
+	request.Header.Set("Content-Type", "application/json")
 
 	var response, reqErr = opn.Send(request)
 	if reqErr != nil {
@@ -219,31 +208,28 @@ func (opn *UnboundApi) HostEntryRemove(host string, domain string) (string, erro
 			Result string `json:"status"`
 			Data   data   `json:"data"`
 		}
-		jsonError := json.NewDecoder(response.Body).Decode(&resultContainer)
 
-		if jsonError != nil {
-			return "", jsonError
+		if err := json.NewDecoder(response.Body).Decode(&resultContainer); err != nil {
+			return "", err
 		}
 		// else
 		return resultContainer.Data.FQDN, nil
 	} else {
 		var container struct {
-			Status string `json:"status"`
+			Status  string `json:"status"`
 			Message string `json:"message"`
 		}
 
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
-		if jsonError != nil {
-			return "", jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return "", err
 		}
-		return "", errors.New(fmt.Sprintf("%s:%s",container.Message, reqErr))
+		return "", errors.New(fmt.Sprintf("%s:%s", container.Message, reqErr))
 	}
 	// else
 	return "", nil
 }
 
-
-func (opn *UnboundApi) HostEntryExists(host string, domain string) (bool, error){
+func (opn *UnboundApi) HostEntryExists(host string, domain string) (bool, error) {
 	var hostEntry, err = opn.HostEntryGet(host, domain)
 
 	if err != nil {
