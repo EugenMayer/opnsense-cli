@@ -4,9 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"fmt"
 	"os"
-	"github.com/joho/godotenv"
 	"log"
-	"net/url"
 	opnsenseapi "github.com/eugenmayer/opnsense-cli/opnsense/api"
 
 )
