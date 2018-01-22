@@ -11,13 +11,13 @@ import (
 var unboundHostEntryCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create an Unbound Host entry",
-	Run: HostEntryCreateUpdateRun,
+	Run:   hostEntryCreateUpdateRun,
 }
 
 var unboundHostEntryUpdateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "Update an Unbound Host entry",
-	Run: HostEntryCreateUpdateRun,
+	Run:   hostEntryCreateUpdateRun,
 }
 
 func init() {
@@ -40,7 +40,7 @@ func setupUnboundHostEntryCreateUpdateCommand(command *cobra.Command) {
 	command.MarkFlagRequired("ip")
 }
 
-func HostEntryCreateUpdateRun(cmd *cobra.Command, args []string) {
+func hostEntryCreateUpdateRun(_ *cobra.Command, _ []string) {
 	var unboundApi = unbound.UnboundApi{GetOPNsenseApi() }
 	hostEntry := unbound.HostEntry{
 		Host:     HOSTENTRYhost,

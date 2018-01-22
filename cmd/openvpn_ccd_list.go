@@ -17,7 +17,7 @@ func init() {
 	OpenvpnCcdCmd.AddCommand(openvpnCcdListCmd)
 }
 
-func ccdListRun(cmd *cobra.Command, args []string) {
+func ccdListRun(_ *cobra.Command, _ []string) {
 	var openvpnApi = openvpn.OpenVpnApi{GetOPNsenseApi() }
 
 	var ccds, err = openvpnApi.CcdList()

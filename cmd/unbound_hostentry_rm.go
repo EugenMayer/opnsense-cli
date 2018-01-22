@@ -10,7 +10,7 @@ import (
 var unboundHostEntryRmCmd = &cobra.Command{
 	Use:   "rm",
 	Short: "Remove a Unbound HostEntry entry",
-	Run:   HostEntryRmRun,
+	Run:   hostEntryRmRun,
 }
 
 func init() {
@@ -23,7 +23,7 @@ func init() {
 	unboundCmd.AddCommand(unboundHostEntryRmCmd)
 }
 
-func HostEntryRmRun(_ *cobra.Command, _ []string) {
+func hostEntryRmRun(_ *cobra.Command, _ []string) {
 	var openvpnApi = unbound.UnboundApi{GetOPNsenseApi() }
 
 	var ccd, err = openvpnApi.HostEntryRemove(HOSTENTRYhost, HOSTENTRYdomain)

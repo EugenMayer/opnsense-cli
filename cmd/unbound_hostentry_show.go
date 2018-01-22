@@ -10,7 +10,7 @@ import (
 var unboundHostEntryShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show a Unbound Host entry",
-	Run:   HostEntryShowRun,
+	Run:   hostEntryShowRun,
 }
 
 func init() {
@@ -23,7 +23,7 @@ func init() {
 	unboundCmd.AddCommand(unboundHostEntryShowCmd)
 }
 
-func HostEntryShowRun(_ *cobra.Command, _ []string) {
+func hostEntryShowRun(_ *cobra.Command, _ []string) {
 	var openvpnApi = unbound.UnboundApi{GetOPNsenseApi() }
 
 	var ccd, err = openvpnApi.HostEntryGet(HOSTENTRYhost, HOSTENTRYdomain)

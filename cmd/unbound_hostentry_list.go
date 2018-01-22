@@ -10,14 +10,14 @@ import (
 var unboundHostEntryListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all Unbound Host entries",
-	Run:   HostEntryListRun,
+	Run:   hostEntryListRun,
 }
 
 func init() {
 	unboundCmd.AddCommand(unboundHostEntryListCmd)
 }
 
-func HostEntryListRun(cmd *cobra.Command, args []string) {
+func hostEntryListRun(_ *cobra.Command, _ []string) {
 	var unboundApi = unbound.UnboundApi{GetOPNsenseApi() }
 
 	var hostEntries, err = unboundApi.HostEntryList()

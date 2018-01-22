@@ -10,7 +10,7 @@ import (
 var openvpnCcdShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show a OpenVPN CCD entry",
-	Run:  CcdRmRun,
+	Run:   ccdRmRun,
 }
 
 func init() {
@@ -20,7 +20,7 @@ func init() {
 	OpenvpnCcdCmd.AddCommand(openvpnCcdShowCmd)
 }
 
-func CcdRmRun(_ *cobra.Command, _ []string) {
+func ccdRmRun(_ *cobra.Command, _ []string) {
 	var openvpnApi = openvpn.OpenVpnApi{GetOPNsenseApi() }
 
 	var ccd, err = openvpnApi.CcdGet(CCDcommonName)

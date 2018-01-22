@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"crypto/tls"
 	"github.com/joho/godotenv"
-	"log"
 	"os"
 	"errors"
 )
