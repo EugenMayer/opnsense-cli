@@ -15,7 +15,7 @@ You need to create a .env (dotenv) for the secrets, or expose them into your ENV
     OPN_APIKEY=5GWbPwKfXVLzgJnewKuu1IPw2HS7s510jKHmTM+rLA1y9VfEFE57yj/kJiWbXREB0EgpBK48u4gnyign
     OPN_APISECRET=EtpPVbiCBdtvG5VDlYJQfLu7Qck2hRffoLi2vb73arn5bKzxEbGdti8+iZetgc9eHABJy6XYG6/UsW/1
        
-## Usage
+## Usage: cli
 
     opn --help
 
@@ -34,6 +34,30 @@ You need to create a .env (dotenv) for the secrets, or expose them into your ENV
     opn unbound hostentry rm --host foo --domain bar.tld
     opn unbound hostentry list
 
+## Usage: GoLang library
+
+    import (
+      opn_unbound "github.com/eugenmayer/opnsense-cli/opnsense/api/unbound"
+      opn_api "github.com/eugenmayer/opnsense-cli/opnsense/api"
+    )
+     
+    func create_host_entry() error {
+        var opnUnboundConnection opn_unbound.UnboundApi
+
+        if opnConnection, opnErr := opn_api.ConfiugreFromEnv(); opnErr != nil {
+            return errors.New(fmt.Sprintf("Error getting OPNsense connection: %s", opnErr))
+        } else {
+            opnUnboundConnection = opn_unbound.UnboundApi{opnConnection}
+        }
+    
+        var dnsHostEntry = opn_unbound.HostEntry{
+            Host:   "test,
+            Domain: "foo.tld,
+            Ip:     "10.10.10.1",
+        }
+        
+        _, _ := opnUnboundConnection.HostEntryCreateOrUpdate(dnsHostEntry)
+    }
 ## Test instance ?
 
 If you miss yourself a opnsense instance to test agains, why do you just dont start one? :)
