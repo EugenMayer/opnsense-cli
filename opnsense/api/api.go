@@ -31,7 +31,7 @@ func (opn *OPNsense) Send(request *http.Request) (*http.Response, error) {
 	return client.Do(request)
 }
 
-func ConfiugreFromEnv() (*OPNsense, error) {
+func ConfigureFromEnv() (*OPNsense, error) {
 	if err := godotenv.Load(); err != nil {
 		return nil, errors.New(fmt.Sprintf("Error with the dotenv environment: %s", err))
 	}

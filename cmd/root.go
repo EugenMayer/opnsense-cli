@@ -30,7 +30,7 @@ func init() {
 }
 
 func GetOPNsenseApi() *opnsenseapi.OPNsense {
-	connection, err := opnsenseapi.ConfiugreFromEnv()
+	connection, err := opnsenseapi.ConfigureFromEnv()
 	if err != nil {
 		log.Fatal()
 	}
