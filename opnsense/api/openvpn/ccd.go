@@ -26,6 +26,7 @@ type Ccd struct {
 	PushReset string `json:"push_reset"`
 }
 
+
 func (opn *OpenVpnApi) CcdCreate(ccd Ccd, update bool) (string, error) {
 	// endpoint
 	var endpoint string
@@ -155,6 +156,12 @@ func (opn *OpenVpnApi) CcdGet(commonName string) (Ccd, error){
 		}
 		// else
 		return container.Ccd, nil
+
+	} else if  response.StatusCode == 404 {
+		return Ccd{}, &coreapi.NotFoundError{
+			Err: nil,
+			Name: "ccd",
+		}
 	} else {
 		var container struct {
 			Status string `json:"status"`
@@ -164,6 +171,7 @@ func (opn *OpenVpnApi) CcdGet(commonName string) (Ccd, error){
 		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
 			return Ccd{}, err
 		}
+
 		return Ccd{}, errors.New(fmt.Sprintf("%s",container.Message))
 	}
 }
@@ -213,15 +221,14 @@ func (opn *OpenVpnApi) CcdList() ([]Ccd, error){
 }
 
 func (opn *OpenVpnApi) CcdExists(commonName string) (bool, error){
-	var ccd, err = opn.CcdGet(commonName)
-
-	if err != nil {
-		return true, err
+	if _, err := opn.CcdGet(commonName); err != nil {
+		switch err.(type) {
+			case *coreapi.NotFoundError:
+				return false, nil
+			default:
+				return true, err
+		}
 	}
-
-	if ccd.CommonName != "" {
-		return true, nil
-	}
-	// else
-	return false, nil
+	// else found something
+	return true, nil
 }

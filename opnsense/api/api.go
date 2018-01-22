@@ -30,6 +30,15 @@ func (opn *OPNsense) Send(request *http.Request) (*http.Response, error) {
 	return client.Do(request)
 }
 
+type NotFoundError struct {
+	Name string
+	Err error
+}
+
+func (f *NotFoundError) Error() string {
+	return fmt.Sprintf("not found: %s", f.Name )
+}
+
 func ConfigureFromEnv() (*OPNsense, error) {
 	if err := godotenv.Load(); err != nil {
 		return nil, errors.New(fmt.Sprintf("Error with the dotenv environment: %s", err))

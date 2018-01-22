@@ -113,6 +113,11 @@ func (opn *UnboundApi) HostEntryGet(host string, domain string) (HostEntry, erro
 		}
 		// else
 		return container.HostEntry, nil
+	} else if response.StatusCode == 404 {
+		return HostEntry{}, &coreapi.NotFoundError{
+			Err: nil,
+			Name: "hostentry",
+		}
 	} else {
 		var container struct {
 			Status  string `json:"status"`
@@ -230,15 +235,14 @@ func (opn *UnboundApi) HostEntryRemove(host string, domain string) (string, erro
 }
 
 func (opn *UnboundApi) HostEntryExists(host string, domain string) (bool, error) {
-	var hostEntry, err = opn.HostEntryGet(host, domain)
-
-	if err != nil {
-		return true, err
+	if _, err := opn.HostEntryGet(host, domain); err != nil {
+		switch err.(type) {
+		case *coreapi.NotFoundError:
+			return false, nil
+		default:
+			return true, err
+		}
 	}
-
-	if hostEntry.Host != host {
-		return true, nil
-	}
-	// else
-	return false, nil
+	// else found something
+	return true, nil
 }
