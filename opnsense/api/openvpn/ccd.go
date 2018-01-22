@@ -43,9 +43,9 @@ func (opn *OpenVpnApi) CcdCreate(ccd Ccd, update bool) (string, error) {
 	container.Ccd = ccd
 	// create our Request
 	jsonBody := new(bytes.Buffer)
-	encodingErr := json.NewEncoder(jsonBody).Encode(container)
-	if encodingErr != nil {
-		return "", encodingErr
+
+	if err := json.NewEncoder(jsonBody).Encode(container); err != nil {
+		return "", err
 	}
 
 	request, reqCreationErr := http.NewRequest("POST", endpoint, jsonBody)
@@ -68,10 +68,9 @@ func (opn *OpenVpnApi) CcdCreate(ccd Ccd, update bool) (string, error) {
 			Result string `json:"status"`
 			Data data `json:"data"`
 		}
-		jsonError := json.NewDecoder(response.Body).Decode(&resultContainer)
 
-		if jsonError != nil {
-			return "", jsonError
+		if err := json.NewDecoder(response.Body).Decode(&resultContainer); err != nil {
+			return "", err
 		}
 		// else
 		return resultContainer.Data.Uuid, nil
@@ -81,15 +80,12 @@ func (opn *OpenVpnApi) CcdCreate(ccd Ccd, update bool) (string, error) {
 			Message string `json:"message"`
 		}
 
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
-		if jsonError != nil {
-			return "", jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return "", err
 		}
 
 		return "", errors.New(container.Message)
 	}
-	// else
-	return "", nil
 }
 
 
@@ -102,11 +98,11 @@ func (opn *OpenVpnApi) CcdRemove(commonName string) (string, error) {
 	jsonBody := new(bytes.Buffer)
 	json.NewEncoder(jsonBody).Encode(make([]string, 0))
 	request, reqCreationErr := http.NewRequest("POST", reqUrl, jsonBody)
-	request.Header.Set("Content-Type", "application/json")
-
 	if reqCreationErr != nil {
 		return "", reqCreationErr
 	}
+
+	request.Header.Set("Content-Type", "application/json")
 
 	var response, reqErr = opn.Send(request)
 	if reqErr != nil {
@@ -117,18 +113,15 @@ func (opn *OpenVpnApi) CcdRemove(commonName string) (string, error) {
 		var container struct {
 			Uuid string `json:"uuid"`
 		}
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
 
-		if jsonError != nil {
-			return "", jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return "", err
 		}
 		// else
 		return container.Uuid, nil
 	} else {
 		return "", errors.New("error in response")
 	}
-	// else
-	return "", nil
 }
 
 func (opn *OpenVpnApi) CcdGet(commonName string) (Ccd, error){
@@ -139,7 +132,6 @@ func (opn *OpenVpnApi) CcdGet(commonName string) (Ccd, error){
 	var reqUrl = fmt.Sprintf("%s/%s", endpoint, commonName)
 	// create our Request
 	var request, reqCreationErr = http.NewRequest("GET", reqUrl, nil)
-
 	if reqCreationErr != nil {
 		return Ccd{}, reqCreationErr
 	}
@@ -157,10 +149,9 @@ func (opn *OpenVpnApi) CcdGet(commonName string) (Ccd, error){
 			Status string `json:"status"`
 			Ccd Ccd `json:"data"`
 		}
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
 
-		if jsonError != nil {
-			return Ccd{}, jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return Ccd{}, err
 		}
 		// else
 		return container.Ccd, nil
@@ -170,14 +161,11 @@ func (opn *OpenVpnApi) CcdGet(commonName string) (Ccd, error){
 			Message string `json:"message"`
 		}
 
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
-		if jsonError != nil {
-			return Ccd{}, jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return Ccd{}, err
 		}
 		return Ccd{}, errors.New(fmt.Sprintf("%s",container.Message))
 	}
-	// else
-	return Ccd{}, nil
 }
 
 
@@ -206,10 +194,8 @@ func (opn *OpenVpnApi) CcdList() ([]Ccd, error){
 			Ccds []Ccd `json:"data"`
 		}
 
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
-
-		if jsonError != nil {
-			return []Ccd{}, jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return []Ccd{}, err
 		}
 		// else
 		return container.Ccds, nil
@@ -219,14 +205,11 @@ func (opn *OpenVpnApi) CcdList() ([]Ccd, error){
 			Message string `json:"message"`
 		}
 
-		jsonError := json.NewDecoder(response.Body).Decode(&container)
-		if jsonError != nil {
-			return []Ccd{}, jsonError
+		if err := json.NewDecoder(response.Body).Decode(&container); err != nil {
+			return []Ccd{}, err
 		}
 		return []Ccd{}, errors.New(fmt.Sprintf("%s:%s",container.Message, reqErr))
 	}
-	// else
-	return []Ccd{}, nil
 }
 
 func (opn *OpenVpnApi) CcdExists(commonName string) (bool, error){
