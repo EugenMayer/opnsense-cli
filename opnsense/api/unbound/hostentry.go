@@ -18,10 +18,10 @@ type HostEntry struct {
 	Host        string `json:"host"`
 	Domain      string `json:"domain"`
 	Ip          string `json:"ip"`
-	Rr          string `json:"rr"`
-	Mxprio      string `json:"mxprio"`
-	Mx          string `json:"mx"`
-	Description string `json:"descr"`
+	Rr          string `json:"rr"` // A, MX, CNAME...
+	Mxprio      string `json:"mxprio"` // 10, 20
+	Mx          string `json:"mx"` // mail.domain.tld ...
+	Description string `json:"descr"` // any arbitrary text
 }
 
 func NewHostEntry(host, domain, ip string) HostEntry{
@@ -29,6 +29,7 @@ func NewHostEntry(host, domain, ip string) HostEntry{
 		Host: host,
 		Domain: domain,
 		Ip: ip,
+		Rr: "A",
 	}
 }
 
