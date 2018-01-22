@@ -24,6 +24,14 @@ type HostEntry struct {
 	Description string `json:"descr"`
 }
 
+func NewHostEntry(host, domain, ip string) HostEntry{
+	return HostEntry{
+		Host: host,
+		Domain: domain,
+		Ip: ip,
+	}
+}
+
 func (opn *UnboundApi) HostEntryCreateOrUpdate(hostEntry HostEntry) (string, error) {
 	// endpoint
 	var endpoint = opn.EndpointForPluginControllerMedthod("unbound", "hostentry", "setHostEntry")

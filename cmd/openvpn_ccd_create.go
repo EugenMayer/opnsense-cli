@@ -11,7 +11,7 @@ import (
 var openvpnCcdCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create an OpenVPN CCD entry",
-	Run: CcdCreateRun,
+	Run:   ccdCreateRun,
 }
 
 func init() {
@@ -29,7 +29,7 @@ func init() {
 	OpenvpnCcdCmd.AddCommand(openvpnCcdCreateCmd)
 }
 
-func CcdCreateRun(_ *cobra.Command, _ []string) {
+func ccdCreateRun(_ *cobra.Command, _ []string) {
 	var openvpnApi = openvpn.OpenVpnApi{GetOPNsenseApi() }
 	ccd := openvpn.Ccd{
 		CommonName:     CCDcommonName,

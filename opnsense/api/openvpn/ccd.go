@@ -16,16 +16,24 @@ type OpenVpnApi struct {
 
 type Ccd struct {
 	CommonName string `json:"common_name"`
-	TunnelNetwork string `json:"tunnel_network"`
+	TunnelNetwork string `json:"tunnel_network"` // CIDR like 10.1.1.1/24
 	TunnelNetwork6 string `json:"tunnel_network6"`
-	RemoteNetwork string `json:"remote_network"`
+	RemoteNetwork string `json:"remote_network"`  // CIDR like 10.1.1.1/24
 	RemoteNetwork6 string `json:"remote_network6"`
 	LocalNetwork string `json:"local_network"`
-	LocalNetwork6 string `json:"local_network6"`
-	Block string `json:"block"`
-	PushReset string `json:"push_reset"`
+	LocalNetwork6 string `json:"local_network6"` // CIDR like 10.1.1.1/24
+	Block string `json:"block"` // 0 or 1 as string
+	PushReset string `json:"push_reset"` // 0 or 1 as string
 }
 
+// factory to ensure sane defaults
+func NewCCD(commonName string) Ccd{
+	return Ccd{
+		CommonName: commonName,
+		Block: "0",
+		PushReset: "0",
+	}
+}
 
 func (opn *OpenVpnApi) CcdCreate(ccd Ccd, update bool) (string, error) {
 	// endpoint
