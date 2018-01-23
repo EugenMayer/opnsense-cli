@@ -8,8 +8,8 @@ Implementation of the OPNsense WebAPI to be used on the CLI or as a library - wr
 
 Its precompiled and has no dependencies, so just download the binary and you are good to go
 
-    curl -Lo opn https://github.com/EugenMayer/opnsense-cli/raw/master/dist/opn
-    chmod +x opn
+    Pick a release from https://github.com/EugenMayer/opnsense-cli/releases
+    chmod +x opn-*
 
 You need to create a .env (dotenv) for the secrets, or expose them into your ENV using `export`
 
