@@ -1,3 +1,5 @@
+[build by our opensource concourse pipeline](https://github.com/EugenMayer/concourse-our-open-pipelines)
+
 ## WAT
 
 Implementation of the OPNsense WebAPI to be used on the CLI or as a library - written in GO
