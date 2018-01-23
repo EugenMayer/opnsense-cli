@@ -75,8 +75,8 @@ User: `root` / Password: `opnsense`
     brew install glide
 
     # fetch the dependencies
-    glide install
+    make prepare
     
     # building
-    go build -o dist/opn opn.go
+    make build
 
