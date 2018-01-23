@@ -7,10 +7,10 @@ rm:
 	docker-compose down -v
 
 build: prepare
-	go build -o dist/opn cmd/dw/dwaccount.go
+	go build -o dist/opn opn.go
 
 release: prepare
-	go build -o dist/opn-${VERSION} cmd/dw/dwaccount.go
+	go build -o dist/opn-${VERSION} opn.go
 
 prepare:
 	glide install
