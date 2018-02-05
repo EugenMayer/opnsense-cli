@@ -41,7 +41,7 @@ func (f *NotFoundError) Error() string {
 
 func ConfigureFromEnv() (*OPNsense, error) {
 	if err := godotenv.Load(); err != nil {
-		return nil, errors.New(fmt.Sprintf("Error with the dotenv environment: %s", err))
+		fmt.Print("No .env file - nothing loaded from there")
 	}
 
 	if _, isset := os.LookupEnv("OPN_URL"); !isset {
