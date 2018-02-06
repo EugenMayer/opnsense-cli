@@ -8,6 +8,7 @@ import (
 	"github.com/joho/godotenv"
 	"os"
 	"errors"
+	"crypto/x509"
 )
 
 type OPNsense struct {
@@ -20,10 +21,12 @@ type OPNsense struct {
 func (opn *OPNsense) Send(request *http.Request) (*http.Response, error) {
 	var client = &http.Client{}
 
-	if opn.NoSslVerify {
-		client.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		}
+	certPool, _ := x509.SystemCertPool()
+	client.Transport = &http.Transport{
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: opn.NoSslVerify,
+			RootCAs: certPool,
+		},
 	}
 
 	request.SetBasicAuth(opn.ApiKey, opn.ApiSecret)
