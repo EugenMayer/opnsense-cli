@@ -40,9 +40,7 @@ func (f *NotFoundError) Error() string {
 }
 
 func ConfigureFromEnv() (*OPNsense, error) {
-	if err := godotenv.Load(); err != nil {
-		fmt.Print("No .env file - nothing loaded from there")
-	}
+	godotenv.Load()
 
 	if _, isset := os.LookupEnv("OPN_URL"); !isset {
 		return nil, errors.New(fmt.Sprintf("Please set the OPN_URL to your opnsense opnUrl like https://myopnsense:10443"))
