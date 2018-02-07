@@ -7,10 +7,12 @@ rm:
 	docker-compose down -v
 
 build: prepare
-	go build -o dist/opn opn.go
+	go build -o dist/opn-macos-amd64 opn.go
+	env GOSS=linux go build -o dist/opn-linux-amd64 opn.go
 
 release: prepare
-	go build -o dist/opn-${VERSION} opn.go
+	go build -o dist/opn-macos-amd64-${VERSION} opn.go
+	env GOSS=linux go build -o dist/opn-linux-amd64-${VERSION} opn.go
 
 prepare:
 	glide install
