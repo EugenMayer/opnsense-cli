@@ -8,6 +8,7 @@ import (
 	"github.com/joho/godotenv"
 	"os"
 	"errors"
+	"crypto/x509"
 )
 
 type OPNsense struct {
@@ -20,10 +21,12 @@ type OPNsense struct {
 func (opn *OPNsense) Send(request *http.Request) (*http.Response, error) {
 	var client = &http.Client{}
 
-	if opn.NoSslVerify {
-		client.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		}
+	certPool, _ := x509.SystemCertPool()
+	client.Transport = &http.Transport{
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: opn.NoSslVerify,
+			RootCAs: certPool,
+		},
 	}
 
 	request.SetBasicAuth(opn.ApiKey, opn.ApiSecret)
@@ -40,9 +43,7 @@ func (f *NotFoundError) Error() string {
 }
 
 func ConfigureFromEnv() (*OPNsense, error) {
-	if err := godotenv.Load(); err != nil {
-		fmt.Print("No .env file - nothing loaded from there")
-	}
+	godotenv.Load()
 
 	if _, isset := os.LookupEnv("OPN_URL"); !isset {
 		return nil, errors.New(fmt.Sprintf("Please set the OPN_URL to your opnsense opnUrl like https://myopnsense:10443"))

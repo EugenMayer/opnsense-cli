@@ -148,9 +148,12 @@ func (opn *OpenVpnApi) CcdGet(commonName string) (Ccd, error){
 	// send it to the server
 	var response, reqErr = opn.Send(request)
 	if reqErr != nil {
-		bodyBytes, _ := ioutil.ReadAll(response.Body)
-		bodyString := string(bodyBytes)
-		return Ccd{}, errors.New(fmt.Sprintf("%s:%s",bodyString, reqErr))
+		bodyString := ""
+		if response != nil {
+			bodyBytes, _ := ioutil.ReadAll(response.Body)
+			bodyString = string(bodyBytes)
+		}
+		return Ccd{}, errors.New(fmt.Sprintf("%s:%s",reqErr, bodyString))
 	}
 
 	if response.StatusCode == 200 {
@@ -199,9 +202,12 @@ func (opn *OpenVpnApi) CcdList() ([]Ccd, error){
 	// send it to the server
 	var response, reqErr = opn.Send(request)
 	if reqErr != nil {
-		bodyBytes, _ := ioutil.ReadAll(response.Body)
-		bodyString := string(bodyBytes)
-		return []Ccd{}, errors.New(fmt.Sprintf("%s:%s",bodyString, reqErr))
+		bodyString := ""
+		if response != nil {
+			bodyBytes, _ := ioutil.ReadAll(response.Body)
+			bodyString = string(bodyBytes)
+		}
+		return []Ccd{}, errors.New(fmt.Sprintf("%s:%s",reqErr, bodyString))
 	}
 
 	if response.StatusCode == 200 {
