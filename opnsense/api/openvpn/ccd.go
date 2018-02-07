@@ -240,3 +240,31 @@ func (opn *OpenVpnApi) CcdExists(commonName string) (bool, error){
 	// else found something
 	return true, nil
 }
+
+
+func (opn *OpenVpnApi) CcdRegenrate() (error) {
+	// endpoint
+	var endpoint = opn.EndpointForPluginControllerMedthod("openvpn","ccd","generateCcds")
+
+	// create our Request
+	jsonBody := new(bytes.Buffer)
+	json.NewEncoder(jsonBody).Encode(make([]string, 0))
+	request, reqCreationErr := http.NewRequest("POST", endpoint, jsonBody)
+	if reqCreationErr != nil {
+		return reqCreationErr
+	}
+
+	request.Header.Set("Content-Type", "application/json")
+
+	var response, reqErr = opn.Send(request)
+	if reqErr != nil {
+		return reqErr
+	}
+
+	if response.StatusCode == 200 {
+		// else
+		return nil
+	}
+	// else
+	return errors.New("error in response")
+}
