@@ -1,8 +1,0 @@
-package: github.com/EugenMayer/opnsense-cli
-import:
-- package: github.com/joho/godotenv
-  version: ~1.2.0
-- package: github.com/spf13/cobra
-  version: ~0.0.1
-- package: github.com/spf13/pflag
-  version: ~1.0.0

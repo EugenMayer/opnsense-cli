@@ -24,21 +24,12 @@ You need to create a .env (dotenv) for the secrets, or expose them into your ENV
 Yet i implemented this plugins:
 
  - [opnsense-unbound-plugin](https://github.com/EugenMayer/opnsense-unbound-plugin)
- - [opnsense-openvpn-plugin](https://github.com/EugenMayer/opnsense-openvpn-plugin)
  
 No core API yet wrapped up, but well, check the structure - its build for easy extension and a big namespace with subcommands.
 
 ## Usage: cli
 
     opn --help
-
-    # openvpn CCDs ( client specific overrides )
-    opn openvpn ccd --help
-    opn openvpn ccd create -c foo --tunnel "10.10.10.1/24"
-    opn openvpn ccd update -c foo --tunnel "11.11.11.1/24"
-    opn openvpn ccd show -c foo
-    opn openvpn ccd rm -c foo --tunnel "10.10.10.1/24"
-    opn openvpn ccd list
 
     # unbound host DNS entries
     opn unbound hostentry create --host foo --domain bar.tld --ip 10.10.10.1
@@ -82,12 +73,6 @@ User: `root` / Password: `opnsense`
 
 ## Development
 
-    # install glide, whichever way
-    brew install glide
-
-    # fetch the dependencies
-    make prepare
-    
     # building
     make build
 
