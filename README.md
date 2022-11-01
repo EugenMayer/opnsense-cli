@@ -6,7 +6,7 @@ Implementation of the OPNsense WebAPI to be used on the CLI or as a library - wr
 
 ## Installation
 
-Its precompiled and has no dependencies, so just download the binary and you are good to go
+Its precompiled and has no dependencies, so just download the binary, and you are good to go
 
     Pick a release from https://github.com/EugenMayer/opnsense-cli/releases
     chmod +x opn-*
@@ -19,24 +19,27 @@ You need to create a .env (dotenv) for the secrets, or expose them into your ENV
     # if we should not verify SSL while talking to opn, enable that
     #OPN_NOSSLVERIFY=1
 
-## What works?
+## Commands included
 
-Yet i implemented this plugins:
+Just run 
 
- - [opnsense-unbound-plugin](https://github.com/EugenMayer/opnsense-unbound-plugin)
- 
-No core API yet wrapped up, but well, check the structure - its build for easy extension and a big namespace with subcommands.
+    opn 
+
+to see a full list. Currently implemented
+
+- managing host overrides for unbound (CRUD + list)
+
 
 ## Usage: cli
 
     opn --help
 
     # unbound host DNS entries
-    opn unbound hostentry create --host foo --domain bar.tld --ip 10.10.10.1
-    opn unbound hostentry update --host foo --domain bar.tld --ip 10.10.10.2
-    opn unbound hostentry show --host foo --domain bar.tld
-    opn unbound hostentry rm --host foo --domain bar.tld
-    opn unbound hostentry list
+    opn unbound hostoverride create --host foo --domain bar.tld --ip 10.10.10.1
+    opn unbound hostoverride update --host foo --domain bar.tld --ip 10.10.10.2
+    opn unbound hostoverride show --host foo --domain bar.tld
+    opn unbound hostoverride rm --host foo --domain bar.tld
+    opn unbound hostoverride list
 
 ## Usage: GoLang library
 
@@ -54,13 +57,13 @@ No core API yet wrapped up, but well, check the structure - its build for easy e
             opnUnboundConnection = opn_unbound.UnboundApi{opnConnection}
         }
     
-        var dnsHostEntry = opn_unbound.HostEntry{
+        var dnsHostEntry = opn_unbound.HostOverride{
             Host:   "test,
             Domain: "foo.tld,
             Ip:     "10.10.10.1",
         }
         
-        _, _ := opnUnboundConnection.HostEntryCreateOrUpdate(dnsHostEntry)
+        _, _ := opnUnboundConnection.HostOverrideCreateOrUpdate(dnsHostEntry)
     }
 ## Test instance ?
 
@@ -68,7 +71,7 @@ If you miss yourself a opnsense instance to test agains, why do you just dont st
 
     vagrant up opnsense
 
-You will able to be connect to this using https://localhost:10443 or using the shell `ssh -p 10022 root@localhost`
+You will be able to connect to this using https://localhost:10443 or using the shell `ssh -p 10022 root@localhost`
 User: `root` / Password: `opnsense`
 
 ## Development

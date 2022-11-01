@@ -2,3 +2,4 @@
 .env
 vendor
 #dist/
+http/*.private.env.json

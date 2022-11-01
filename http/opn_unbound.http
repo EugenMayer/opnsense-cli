@@ -1,0 +1,40 @@
+###
+### Add host override
+###
+POST {{baseUrl}}/api/unbound/settings/addHostOverride
+Authorization: Basic {{username}} {{password}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "host" : {
+    "enabled": "1",
+    "hostname": "test",
+    "domain": "fest.local",
+    "rr": "A",
+    "server": "1.1.1.1"
+  }
+}
+
+###
+### Delete host override
+###
+POST {{baseUrl}}/api/unbound/settings/delHostOverride/84364c29-dce8-4d81-9681-a7e789e8c035
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+
+###
+### Search host override
+###
+POST {{baseUrl}}/api/unbound/settings/searchHostOverride
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+
+###
+### Search host override with search phrase
+###
+POST {{baseUrl}}/api/unbound/settings/searchHostOverride?searchPhrase=test.local
+Authorization: Basic {{username}} {{password}}
+Accept: application/json

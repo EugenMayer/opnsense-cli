@@ -1,17 +1,16 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"fmt"
-	"os"
-	"log"
 	opnsenseapi "github.com/eugenmayer/opnsense-cli/opnsense/api"
-
+	"github.com/spf13/cobra"
+	"log"
+	"os"
 )
 
 var RootCmd = &cobra.Command{
 	Use:   "opnsense",
-	Short: "OPNsense cli to operate with a opsense API",
+	Short: "OPNsense cli to operate with a opnsense API",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

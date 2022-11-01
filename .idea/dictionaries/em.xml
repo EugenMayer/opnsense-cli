@@ -1,7 +1,12 @@
 <component name="ProjectDictionaryState">
   <dictionary name="em">
     <words>
+      <w>apisecret</w>
+      <w>coreapi</w>
       <w>hostentry</w>
+      <w>hostoverride</w>
+      <w>mxprio</w>
+      <w>nosslverify</w>
       <w>nsense</w>
       <w>openvpn</w>
     </words>

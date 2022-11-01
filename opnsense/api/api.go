@@ -1,14 +1,14 @@
 package api
 
 import (
-	"fmt"
-	"net/url"
-	"net/http"
 	"crypto/tls"
-	"github.com/joho/godotenv"
-	"os"
-	"errors"
 	"crypto/x509"
+	"errors"
+	"fmt"
+	"github.com/joho/godotenv"
+	"net/http"
+	"net/url"
+	"os"
 )
 
 type OPNsense struct {
@@ -25,7 +25,7 @@ func (opn *OPNsense) Send(request *http.Request) (*http.Response, error) {
 	client.Transport = &http.Transport{
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: opn.NoSslVerify,
-			RootCAs: certPool,
+			RootCAs:            certPool,
 		},
 	}
 
@@ -35,15 +35,15 @@ func (opn *OPNsense) Send(request *http.Request) (*http.Response, error) {
 
 type NotFoundError struct {
 	Name string
-	Err error
+	Err  error
 }
 
 func (f *NotFoundError) Error() string {
-	return fmt.Sprintf("not found: %s", f.Name )
+	return fmt.Sprintf("not found: %s", f.Name)
 }
 
 func ConfigureFromEnv() (*OPNsense, error) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	if _, isset := os.LookupEnv("OPN_URL"); !isset {
 		return nil, errors.New(fmt.Sprintf("Please set the OPN_URL to your opnsense opnUrl like https://myopnsense:10443"))
@@ -70,17 +70,17 @@ func ConfigureFromEnv() (*OPNsense, error) {
 	}, nil
 }
 
-// so basically api/<plugin>
-func (opn *OPNsense) EndpointForPlugin(plugin string) string {
-	return fmt.Sprintf("%s/api/%s", opn.BaseUrl.String(), plugin)
+// EndpointForModule so basically api/<plugin>
+func (opn *OPNsense) EndpointForModule(module string) string {
+	return fmt.Sprintf("%s/api/%s", opn.BaseUrl.String(), module)
 }
 
-// so basically api/<plugin>/<controller>
-func (opn *OPNsense) EndpointForPluginController(plugin string, controller string) string {
-	return fmt.Sprintf("%s/%s", opn.EndpointForPlugin(plugin), controller)
+// EndpointForModuleController so basically api/<plugin>/<controller>
+func (opn *OPNsense) EndpointForModuleController(module string, controller string) string {
+	return fmt.Sprintf("%s/%s", opn.EndpointForModule(module), controller)
 }
 
-// so basically api/<plugin>/<controller>/<method>
-func (opn *OPNsense) EndpointForPluginControllerMedthod(plugin string, controller string, method string) string {
-	return fmt.Sprintf("%s/%s", opn.EndpointForPluginController(plugin, controller), method)
+// EndpointForPluginControllerMethod so basically api/<plugin>/<controller>/<method>
+func (opn *OPNsense) EndpointForPluginControllerMethod(module string, controller string, method string) string {
+	return fmt.Sprintf("%s/%s", opn.EndpointForModuleController(module, controller), method)
 }

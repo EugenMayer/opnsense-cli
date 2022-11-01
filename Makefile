@@ -1,3 +1,8 @@
+init:
+	go mod tidy
+	go mod verify
+	go mod vendor
+
 start:
 	vagrant up opnsense
 	docker-compose up -d
@@ -6,7 +11,7 @@ rm:
 	vagrant destroy
 	docker-compose down -v
 
-build:
+build: init
 	go build -o dist/opn-macos-amd64 opn.go
 	env GOSS=linux go build -o dist/opn-linux-amd64 opn.go
 
