@@ -4,6 +4,8 @@
 
 Implementation of the OPNsense WebAPI to be used on the CLI or as a library - written in GO
 
+Compatible with OPNsense 22.1 and higher.
+
 ## Installation
 
 Its precompiled and has no dependencies, so just download the binary, and you are good to go
@@ -65,17 +67,12 @@ to see a full list. Currently implemented
         
         _, _ := opnUnboundConnection.HostOverrideCreateOrUpdate(dnsHostEntry)
     }
-## Test instance ?
-
-If you miss yourself a opnsense instance to test agains, why do you just dont start one? :)
-
-    vagrant up opnsense
-
-You will be able to connect to this using https://localhost:10443 or using the shell `ssh -p 10022 root@localhost`
-User: `root` / Password: `opnsense`
 
 ## Development
 
     # building
     make build
 
+## Contributions
+
+If you like to add a new command implementing OPNsense API reference https://docs.opnsense.org/development/api.html#introduction - open a PR and iam happy to add it. Be bold. 
