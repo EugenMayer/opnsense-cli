@@ -38,8 +38,17 @@ type NotFoundError struct {
 	Err  error
 }
 
+type TooManyFoundError struct {
+	Name string
+	Err  error
+}
+
 func (f *NotFoundError) Error() string {
 	return fmt.Sprintf("not found: %s", f.Name)
+}
+
+func (f *TooManyFoundError) Error() string {
+	return fmt.Sprintf("too many found: %s", f.Name)
 }
 
 func ConfigureFromEnv() (*OPNsense, error) {

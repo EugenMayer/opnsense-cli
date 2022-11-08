@@ -184,7 +184,10 @@ func (opn *UnboundApi) HostEntryGetByFQDN(host string, domain string) (HostOverr
 		})
 
 		if len(allWithMatchingDomain) > 1 {
-			return HostOverride{}, errors.New("found more then one entry")
+			return HostOverride{}, &coreapi.TooManyFoundError{
+				Err:  nil,
+				Name: "found more then one entry",
+			}
 		}
 
 		if len(allWithMatchingDomain) == 0 {
