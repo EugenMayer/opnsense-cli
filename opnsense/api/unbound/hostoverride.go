@@ -188,7 +188,10 @@ func (opn *UnboundApi) HostEntryGetByFQDN(host string, domain string) (HostOverr
 		}
 
 		if len(allWithMatchingDomain) == 0 {
-			return HostOverride{}, errors.New("no entry found")
+			return HostOverride{}, &coreapi.NotFoundError{
+				Err:  nil,
+				Name: "hostentry",
+			}
 		}
 
 		// else
