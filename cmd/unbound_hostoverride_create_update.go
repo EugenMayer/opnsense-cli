@@ -23,8 +23,8 @@ var unboundHostOverrideUpdateCmd = &cobra.Command{
 func init() {
 	setupUnboundHostOverrideCreateUpdateCommand(unboundHostOverrideCreateCmd)
 	setupUnboundHostOverrideCreateUpdateCommand(unboundHostOverrideUpdateCmd)
-	unboundCmd.AddCommand(unboundHostOverrideCreateCmd)
-	unboundCmd.AddCommand(unboundHostOverrideUpdateCmd)
+	unboundHostOverrideCmd.AddCommand(unboundHostOverrideCreateCmd)
+	unboundHostOverrideCmd.AddCommand(unboundHostOverrideUpdateCmd)
 }
 
 func setupUnboundHostOverrideCreateUpdateCommand(command *cobra.Command) {

@@ -2,7 +2,7 @@
   <configuration default="false" name="delete" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="opnsense-cli" />
     <working_directory value="$PROJECT_DIR$" />
-    <parameters value="unbound rm --host test --domain test.local" />
+    <parameters value="unbound hostoverride rm --host test --domain test.local" />
     <kind value="PACKAGE" />
     <package value="github.com/eugenmayer/opnsense-cli" />
     <directory value="$PROJECT_DIR$" />

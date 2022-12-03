@@ -2,7 +2,7 @@
   <configuration default="false" name="update" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="opnsense-cli" />
     <working_directory value="$PROJECT_DIR$" />
-    <parameters value="unbound create --host test --domain test.local --ip 10.10.233.233 --rr A" />
+    <parameters value="unbound hostoverride update --host test --domain test.local --ip 10.10.233.233 --rr A" />
     <kind value="PACKAGE" />
     <package value="github.com/eugenmayer/opnsense-cli" />
     <directory value="$PROJECT_DIR$" />

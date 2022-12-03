@@ -18,7 +18,7 @@ func init() {
 	unboundHostOverrideRmCmd.Flags().StringVarP(&HOSTOVERRIDEdomain, "domain", "", "", "lookup entry by the host / domainthe domain part")
 	unboundHostOverrideRmCmd.Flags().StringVarP(&HOSTOVERRIDEuuid, "uuid", "", "", "delete by uuid explicitly")
 
-	unboundCmd.AddCommand(unboundHostOverrideRmCmd)
+	unboundHostOverrideCmd.AddCommand(unboundHostOverrideRmCmd)
 }
 
 func hostEntryRmRun(_ *cobra.Command, _ []string) {

@@ -14,7 +14,7 @@ var unboundHostOverrideListCmd = &cobra.Command{
 }
 
 func init() {
-	unboundCmd.AddCommand(unboundHostOverrideListCmd)
+	unboundHostOverrideCmd.AddCommand(unboundHostOverrideListCmd)
 }
 
 func hostEntryListRun(_ *cobra.Command, _ []string) {

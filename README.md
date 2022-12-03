@@ -1,4 +1,4 @@
-[build by our opensource concourse pipeline](https://github.com/EugenMayer/concourse-our-open-pipelines)
+[![build](https://github.com/EugenMayer/opnsense-cli/actions/workflows/build.yml/badge.svg)](https://github.com/EugenMayer/opnsense-cli/actions/workflows/build.yml)
 
 ## WAT
 
@@ -15,9 +15,9 @@ Its precompiled and has no dependencies, so just download the binary, and you ar
 
 You need to create a .env (dotenv) for the secrets, or expose them into your ENV using `export`
 
-    OPN_URL=https://localhost:10443
+`   OPN_URL=https://localhost:10443
     OPN_APIKEY=5GWbPwKfXVLzgJnewKuu1IPw2HS7s510jKHmTM+rLA1y9VfEFE57yj/kJiWbXREB0EgpBK48u4gnyign
-    OPN_APISECRET=EtpPVbiCBdtvG5VDlYJQfLu7Qck2hRffoLi2vb73arn5bKzxEbGdti8+iZetgc9eHABJy6XYG6/UsW/1
+    OPN_APISECRET=EtpPVbiCBdtvG5VDlYJQfLu7Qck2hRffoLi2vb73arn5bKzxEbGdti8+iZetgc9eHABJy6XYG6/UsW/1`
     # if we should not verify SSL while talking to opn, enable that
     #OPN_NOSSLVERIFY=1
 
@@ -42,6 +42,20 @@ to see a full list. Currently implemented
     opn unbound hostoverride show --host foo --domain bar.tld
     opn unbound hostoverride rm --host foo --domain bar.tld
     opn unbound hostoverride list
+
+    # unbound service
+    opn unbound service restart
+    opn unbound service reconfigure
+    opn unbound service status
+
+**HINT**: Right now, as of 22.7, you have to run `reconfigure` everytime you change a hostentry on `unbound`, so e.g.
+
+    # this will yet not show up when you run a DNS query
+    opn unbound hostoverride create --host foo --domain bar.tld --ip 10.10.10.1
+    # after that, it will
+    opn unbound service reconfigure
+
+This might change in later releases.
 
 ## Usage: GoLang library
 

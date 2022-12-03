@@ -2,7 +2,7 @@
   <configuration default="false" name="list" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="opnsense-cli" />
     <working_directory value="$PROJECT_DIR$" />
-    <parameters value="unbound list" />
+    <parameters value="unbound hostoverride list" />
     <kind value="PACKAGE" />
     <package value="github.com/eugenmayer/opnsense-cli" />
     <directory value="$PROJECT_DIR$" />

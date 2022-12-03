@@ -20,7 +20,7 @@ func init() {
 	_ = unboundHostOverrideShowCmd.MarkFlagRequired("host")
 	_ = unboundHostOverrideShowCmd.MarkFlagRequired("domain")
 
-	unboundCmd.AddCommand(unboundHostOverrideShowCmd)
+	unboundHostOverrideCmd.AddCommand(unboundHostOverrideShowCmd)
 }
 
 func hostOverrideShowRun(_ *cobra.Command, _ []string) {
