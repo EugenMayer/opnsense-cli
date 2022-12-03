@@ -2,7 +2,7 @@
 
 ## WAT
 
-Implementation of the OPNsense WebAPI to be used on the CLI or as a library - written in GO
+Implementation of the OPNsense WebAPI to be used on the CLI or as a library - written in Golang
 
 Compatible with OPNsense 22.1 and higher.
 
