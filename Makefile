@@ -14,7 +14,7 @@ rm:
 build: init
 	go build -o dist/opn-macos-amd64 opn.go
 	env GOSS=linux go build -o dist/opn-linux-amd64 opn.go
-
+	env GOSS=windows go build -o dist/opn-windows-amd64 opn.go
 release:
 	go build -o dist/opn-macos-amd64-${VERSION} opn.go
 	env GOSS=linux go build -o dist/opn-linux-amd64-${VERSION} opn.go
