@@ -15,7 +15,7 @@ Its precompiled and has no dependencies, so just download the binary, and you ar
 
 You need to create a .env (dotenv) for the secrets, or expose them into your ENV using `export`
 
-`   OPN_URL=https://localhost:10443
+    OPN_URL=https://localhost:10443
     OPN_APIKEY=5GWbPwKfXVLzgJnewKuu1IPw2HS7s510jKHmTM+rLA1y9VfEFE57yj/kJiWbXREB0EgpBK48u4gnyign
     OPN_APISECRET=EtpPVbiCBdtvG5VDlYJQfLu7Qck2hRffoLi2vb73arn5bKzxEbGdti8+iZetgc9eHABJy6XYG6/UsW/1`
     # if we should not verify SSL while talking to opn, enable that
