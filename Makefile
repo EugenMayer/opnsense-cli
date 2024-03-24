@@ -3,6 +3,10 @@ init:
 	go mod verify
 	go mod vendor
 
+update:
+	go get -u
+	go mod tidy
+
 start:
 	vagrant up opnsense
 	docker-compose up -d
